@@ -1,0 +1,157 @@
+.reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
+ text-transform: none;
+ color: #8C1C16;
+}
+
+
+.reveal {
+ font-family: "Noto Sans", "Helvetica Neue", Helvetica, sans-serif;
+ font-size: 36px;
+}
+
+.reveal-viewport {
+    background-image: url(images/ruby_pattern.png);
+}
+
+.reveal a {
+  color: #8C1C16;
+}
+
+.reveal a:hover {
+  color:  #999;
+}
+
+.reveal a.social img {
+  height: 50px;
+  vertical-align: middle;
+}
+
+.reveal table {
+  width: 100%;
+  line-height: 1.1em;
+}
+
+.reveal table th {
+  border-bottom: 3px solid;
+  color: #8C1C16;
+}
+
+.container{
+  display: flex;
+}
+
+.col{
+  flex: 1;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.small {
+  font-size: 24px;
+}
+
+
+.shade {
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+}
+
+.reveal pre code {
+  padding: 20px;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+}
+
+
+.codeblock > button {
+  margin-top: 5px;
+  margin-right: 5px;
+  font-size: 0;
+  mask: url(images/copy-paste.svg);
+  background-repeat: no-repeat;
+  background-color: white !important;
+  color: #fff;
+  height: 30px;
+  width: 30px;
+}
+
+.codeblock > button[disabled] {
+  background-color: #B8D7A3 !important;
+}
+
+.reveal blockquote {
+  font-size: 20px;
+  color: #666;
+  font-family: "Times New Roman", Times, serif;
+  background-color: rgba(255,255,255,0.3);
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+}
+
+/*
+
+
+pre code.small-height {
+  max-height: 300px;
+}
+
+img.main {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.objects-hierarchy img {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  width: 75% !important;
+}
+
+.objects-hierarchy-zoom img {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.architecture img {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  width: 75% !important;
+}
+
+.diagrams img {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  width: 35% !important;
+}
+
+.tecnologies {
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  width: 5% !important;
+  height: 5% !important;
+}
+
+.list.large li {
+  font-size: 1em;
+}
+
+.list.medium li {
+  font-size: 0.75em;
+}
+
+.list.small li {
+  font-size: 0.6em;
+}
+
+.clarification {
+  font-size: 0.5em;
+}
+
+
+.padding-left {
+  padding-left: 1em;
+}
+
+*/
