@@ -1,8 +1,14 @@
 .reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5, .reveal h6 {
  text-transform: none;
  color: #8C1C16;
+ font-family: "Courier New", Helvetica, sans-serif;
 }
 
+.main-list ul {
+  list-style-type: disclosure-closed;
+  font-family: "Courier New", Helvetica, sans-serif;
+  font-weight: bold;
+}
 
 .reveal {
  font-family: "Noto Sans", "Helvetica Neue", Helvetica, sans-serif;
