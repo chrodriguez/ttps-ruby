@@ -1,1 +1,0 @@
-options.plugins.push( CopyCode );
