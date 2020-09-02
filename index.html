@@ -586,8 +586,7 @@ referencia es conocida como **MRI: _Matz’s Ruby Interpreter_** o **CRuby**
 <div class="main-list">
 
 * objetos y atributos
-* clases
-* variables
+* clases y variables
 * colecciones
 * bloques e iteradores
 * módulos
@@ -912,6 +911,358 @@ puts "Total value = #{reader.total_value_in_stock}"
 [Descargar el
 ejemplo](https://github.com/chrodriguez/ttps-ruby/tree/master/ejemplos/stock-stats)
 
+
+</script></section></section><section ><section data-markdown><script type="text/template">
+## Clases y variables
+
+<div class="main-list">
+
+* ruby
+
+</div>
+</script></section><section data-markdown><script type="text/template">
+# Clases
+</script></section><section data-markdown><script type="text/template">## Control de acceso
+
+* Permitir demasiado acceso en las clases incrementará el **acoplamiento** de
+  la aplicación: _los usuarios de una clase que se expone demasiado podrían confiar en
+    detalles de implementación en vez de su interfaz lógica._
+* Ruby provee control de acceso a los métodos
+* Una regla importante es: **_Nunca exponer métodos que puedan dejar un objeto
+  en estado inválido_**.
+</script></section><section data-markdown><script type="text/template">
+## Niveles de protección
+* **Públicos:** los métodos públicos pueden invocarse por cualquiera. Los
+  métodos son públicos por defecto excepto `initialize` que es privado.
+* **Protegidos:** pueden invocarse por objetos de la clase que lo define y
+  subclases.
+* **Privados:** no pueden ser invocados con un receptor explícito:
+  _el receptor es siempre el objeto actual, `self`_. Esto
+  significa que tampoco puede invocar el método privado de otra instancia de la
+  misma clase.
+</script></section><section data-markdown><script type="text/template">## Aplicando accesos
+
+```ruby
+class MyClass
+  def method  # default is public
+  end
+
+  protected   # subsequent methods will be 'protected'
+  def method2
+  end
+
+  private     # subsequent methods will be 'private'
+  def method3
+  end
+
+  public      # subsequent methods will be 'public'
+  def method4
+  end
+end
+```</script></section><section data-markdown><script type="text/template">## Alternativamente
+
+```ruby
+class MyClass
+  def method1; end
+  def method2; end
+  def method3; end
+  def method4; end
+
+  public :method1, :method4
+  protected :method2
+  private :method3
+end
+```
+</script></section><section data-markdown><script type="text/template">
+# Variables
+</script></section><section data-markdown><script type="text/template">## Variables
+* Hemos usado variables en varias oportunidades.
+* Se usan para no perder valores y poder referenciarlos nuevamente.
+* Cada variable es una **referencia** a un objeto.
+
+> *Is a variable an object?* ***In Ruby, the answer is no.*** *A variable is simply a
+> reference to an object. Objects float around in a big pool somewhere (the heap, most of the
+> time) and are pointed to by variables.*
+</script></section><section data-markdown><script type="text/template">
+## Son referencias
+
+Analicemos el siguiente ejemplo
+
+```ruby
+person1 = "Tim"
+person2 = person1
+person1[0] = 'J'
+puts "person1 is #{person1}"
+puts "person2 is #{person2}"
+```
+
+### Para evitarlo: `dup`
+
+```ruby
+person1 = "Tim"
+person2 = person1.dup
+person1[0] = 'J'
+puts "person1 is #{person1}"
+puts "person2 is #{person2}"
+```</script></section><section data-markdown><script type="text/template">
+## Freezando un objeto
+
+Es posible freezar objetos
+
+```ruby
+person1 = "Tim"
+person2 = person1
+person1.freeze
+person2[0] = 'J'
+```
+
+
+
+</script></section></section><section ><section data-markdown><script type="text/template">
+# Colecciones
+
+<div class="main-list">
+
+* ruby
+
+</div>
+</script></section><section data-markdown><script type="text/template">
+## Introducción
+* Las colecciones representan elementos fundamentales de cualquier programa.
+* Ruby provee dos clases que representan colecciones:
+  * `array`
+  * `hash` _o  arreglo asociativo_
+* El correcto uso de estas colecciones es fundamental en la programación Ruby.
+* Los bloques, combinados con colecciones se convierten en construcciones muy
+  poderosas para la iteración.
+</script></section><section data-markdown><script type="text/template">
+## Array
+
+<div class="container">
+  <div class="col">
+
+* La clase `Array` mantiene una colección de referencias a objetos.
+* Cada referencia a objeto ocupa una posición en el arreglo, identificada por un
+  índice entero no negativo.
+
+  </div>
+  <div class="col">
+
+```ruby
+a = [ 3.14159, "pie", 99 ]
+a.class
+a.length
+a[0]
+a[1]
+a[2]
+a[3]
+
+b = Array.new
+b.class
+b.length
+b[0] = "second"
+b[1] = "array"
+```
+  </div>
+</div>
+</script></section><section data-markdown><script type="text/template">
+## Arrays y `[]`
+
+* Los elementos de un arreglo se acceden con el operador `[]`.
+* Pero `[]` es un método (de instancia en la clase `Array`) y por tanto puede
+  implementarse por cualquier subclase.
+* El primer índice de un arreglo es el cero.
+* Un arreglo accedido en un índice positivo retorna el objeto referenciado en
+  esa posición.
+  * Si no hay objeto, retorna `nil`.
+* Un arreglo accedido en un índice negativo, retorna el objeto contando desde el
+  final.
+</script></section><section data-markdown><script type="text/template">## Uso de índices
+
+<div class="container">
+  <div class="col">
+
+### Negativos
+
+```ruby
+a = [ 1, 7, 9]
+a[-1]
+a[-2]
+a[-99]
+
+
+```
+
+  </div>
+  <div class="col">
+
+### Pares
+```ruby
+a = [ 1, 3, 5, 7, 9 ]
+a[1, 3]
+a[3, 1]
+a[-3, 2]
+
+
+```
+
+> El significado es `[desde,cantidad]`
+
+  </div>
+  <div class="col">
+
+### Rangos
+
+```ruby
+a = [ 1, 3, 5, 7, 9]
+a[1..3]
+a[1...3]
+a[3..3]
+a[-3..-1]
+```
+> Significa **desde** y **hasta**.
+> Si se utiliza `..` se incluye el fin de rango, con
+> `...` se **excluye** el extremo final.
+  </div>
+  </div>
+</script></section><section data-markdown><script type="text/template">## El método `[]=`
+
+
+Setea elementos de un array.
+
+```ruby
+a = [ 1, 3, 5, 7, 9 ]
+a[1] = 'bat'
+a[-3] = 'cat'
+a[3] = [ 9, 8 ]
+a[6] = 99
+```
+
+> Si se utiliza un único índice, reemplaza su valor por lo que esté
+> a la derecha de la asignación: _cualquier gap que haya quedado luego de `[]=`
+> se completa con nil._
+</script></section><section data-markdown><script type="text/template">## El método `[]=`
+* Utilizando dos valores o un rango, el comportamiento depende de lo que 
+  esté a la derecha de la asignación:
+  * Si la cantidad  a reemplazar es cero, entonces **inserta el valor**
+    en la posición inicial: **_no se eliminan elementos_**.
+  * Si el valor a la **derecha es un arreglo**, sus elementos se utilizan en el 
+    reemplazo: _el tamaño del arreglo es actualizado si la cantidad de
+    elementos a la derecha difiere de la cantidad a reemplazar._
+</script></section><section data-markdown><script type="text/template">## Mejor un ejemplo
+
+
+```ruby
+a = [ 1, 3, 5, 7, 9 ]
+a[2, 2] = 'cat'
+a[2, 0] = 'dog'
+a[1, 1] = [ 9, 8, 7 ]
+a[0..3] = []
+a[5..6] = 99, 98
+```
+</script></section><section data-markdown><script type="text/template">## push y pop
+
+
+```ruby
+stack = []
+stack.push "red"
+stack.push "green"
+stack.push "blue"
+
+puts stack.pop
+puts stack.pop
+puts stack.pop
+```
+</script></section><section data-markdown><script type="text/template">## shift y unshift
+
+```ruby
+stack = []
+(stack.unshift 1).unshift 2
+stack.unshift 3
+
+puts stack.shift
+puts stack.shift
+puts stack.shift
+```
+</script></section><section data-markdown><script type="text/template">## first y last
+
+```ruby
+array = [ 1, 2, 3, 4, 5, 6, 7 ]
+p array.first(4)
+p array.last(4)
+```
+</script></section><section data-markdown><script type="text/template">## Hashes
+
+* Los arreglos se indexan con enteros, los hashes con objetos: _Símbolos, strings, expresiones regulares, etc_.
+* Cuando se almacena un valor en un hash, utilizamos:
+  * El índice, generalmente llamado *key*
+  * El dato a almacenar en dicho índice, generalmente llamado *valor*
+* El acceso a los valores referenciados por un hash se realiza por medio de los
+  *keys*.
+</script></section><section data-markdown><script type="text/template">
+### Ejemplo
+
+```ruby
+h = { 'dog' => 'canine', 'cat' => 'feline' }
+h.length # => 2
+h['dog'] # => "canine"
+h['cow'] = 'bovine'
+h[12] = 'dodecine'
+h['cat'] = 99
+```
+</script></section><section data-markdown><script type="text/template">### Cambio de notación
+
+```ruby
+# En ruby >= 1.9
+h = { dog: 'canine', cat: 'feline' }
+
+# En ruby < 1.9
+h = { :dog => 'canine', :cat => 'feline' }
+```</script></section><section data-markdown><script type="text/template">
+### Un programa usando colecciones
+
+
+Calcular el número de veces que aparece una palabra en un texto
+
+> El problema se divide en dos partes:
+> * Separar el texto en palabras: *suena como un array*
+> * Luego contar cada palabra diferente: *suena como hash*
+</script></section><section data-markdown><script type="text/template">
+### El método que obtiene las palabras
+
+Usando expresiones regulares y el método `scan` todo parece muy simple:
+
+```ruby
+def words_from_string(string)
+  string.downcase.scan(/[\w']+/)
+end
+```</script></section><section data-markdown><script type="text/template">### El método que cuenta las palabras
+
+Con un hash indexaremos para cada palabra, la cantidad de ocurrencias.
+
+```ruby
+if counts.has_key?(next_word)
+  counts[next_word] += 1
+else
+  counts[next_word] = 1
+end
+```
+</script></section><section data-markdown><script type="text/template">
+## Refactorizamos
+
+```ruby
+def count_frequency(word_list)
+  counts = Hash.new(0)
+  for word in word_list
+    counts[word] += 1
+  end
+  counts
+end
+```
+
+> `Hash.new` puede recibir como parámetro el valor usado para incializar cada
+> valor del Hash
+> [Descargar ejemplo](https://github.com/chrodriguez/ttps-ruby/tree/master/ejemplos/words-frequency)
 
 
 
