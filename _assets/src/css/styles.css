@@ -72,6 +72,7 @@
   margin-right: 5px;
   font-size: 0;
   mask: url(images/copy-paste.svg);
+  -webkit-mask-image: url(images/copy-paste.svg);
   background-repeat: no-repeat;
   background-color: white !important;
   color: #fff;
