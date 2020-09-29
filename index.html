@@ -1280,20 +1280,20 @@ end
 </div>
 </script></section><section data-markdown><script type="text/template">
 ## Bloques
-* Un bloque es código encerrado entre llaves o las palabras claves `do` y `end`
-* Ambas formas son idénticas, salvo por la precedencia
-  * Cuando el código del bloque entra en una línea usar {}
-  * Cuando tiene más de una línea usar `do` / `end`
-* Los bloques pueden verse como métodos anónimos
+* Un bloque es código encerrado entre llaves o las palabras claves `do` y `end`.
+* Ambas formas son idénticas, salvo por la precedencia.
+  * Cuando el código del bloque entra en una línea usar {}.
+  * Cuando tiene más de una línea usar `do` / `end`.
+* Los bloques pueden verse como métodos anónimos.
 </script></section><section data-markdown><script type="text/template">
 ## Bloques
-* Pueden recibir parámetros, que se explicitan entre barras verticales `|`
+* Pueden recibir parámetros, que se explicitan entre barras verticales `|`.
 * El código de un bloque no se ejecuta cuando se define, sino que se almacenará
-  para ser ejecutado más adelante
+  para ser ejecutado más adelante.
 * En ruby, los bloques sólo podrán usarse después de la *invocación* de algún
-  método
-  * Si el método recibe parámetros, entonces aparecerá luego de ellos
-  * Podría verse incluso como un parámetro extra que es pasado al método
+  método:
+  * Si el método recibe parámetros, entonces aparecerá luego de ellos.
+  * Podría verse incluso como un parámetro extra que es pasado al método.
 </script></section><section data-markdown><script type="text/template">
 ## Ejemplo
 
@@ -1371,14 +1371,14 @@ puts square
 <div class="small">
 
 * Mencionamos que los bloques se utilizan de forma adyacente a la llamada a un
-  método y que no se ejecutan en el momento en que aparecen en el código
+  método y que no se ejecutan en el momento en que aparecen en el código.
 * Para lograr este comportamiento, dentro de un método cualquiera, podremos
-  invocar un bloque
-  * Los bloques se invocarán como si fueran métodos
-  * Para invocar un bloque se utiliza la sentencia `yield`
-  * Al invocar `yield` ruby invocará al código del bloque 
+  invocar un bloque:
+  * Los bloques se invocarán como si fueran métodos.
+  * Para invocar un bloque se utiliza la sentencia `yield`.
+  * Al invocar `yield` ruby invocará al código del bloque .
   * Cuando el bloque finaliza, ruby devuelve el código inmediatamente al
-    finalizar el llamado a `yield`
+    finalizar el llamado a `yield`.
 </div></script></section><section data-markdown><script type="text/template">## Ejemplo de un bloque
 
 ```ruby
@@ -1396,8 +1396,8 @@ three_times { puts "Hola" }
 
 * Cuando utilizamos `yield` podemos enviarle un parámetro
   * El parámetro enviado se mapea con el definido en el bloque entre las barras
-    verticales
-* Un bloque puede retornar un valor y ser usado en el método
+    verticales.
+* Un bloque puede retornar un valor y ser usado en el método.
 </script></section><section data-markdown><script type="text/template">## Ejemplo de envío de parámetros
 
 ```ruby
@@ -1435,18 +1435,18 @@ end
 </script></section><section data-markdown><script type="text/template">## Los iteradores
 * Las clases que implementan colecciones, como `Array` *hacen lo que hacen
   mejor:*
-  * Acceder a los elementos que contienen
-* El comportamiento de qué hacer con cada elemento lo delegan a la aplicación
-  * Permitiendo que nos concentremos sólo en un requerimiento particular
+  * Acceder a los elementos que contienen.
+* El comportamiento de qué hacer con cada elemento lo delegan a la aplicación:
+  * Permitiendo que nos concentremos sólo en un requerimiento particular.
   * En los casos anteriores (`find`), sería encontrar un elemento para el cual
-    el criterio sea verdadero
+    el criterio sea verdadero.
 </script></section><section data-markdown><script type="text/template">## each y collect
 
-* El iterador `each` es el más simple 
-  * Solo invoca `yield` para cada elemento
-* El iterador `collect` también conocido como `map` 
+* El iterador `each` es el más simple.
+  * Solo invoca `yield` para cada elemento.
+* El iterador `collect` también conocido como `map`.
   * Invoca `yield` para cada elemento. El resultado lo guarda en un nuevo 
-  arreglo que es **retornado**
+  arreglo que es **retornado**.
 
 ```ruby
 [ 1, 3, 5, 7, 9 ].each {|i| puts i }
@@ -1455,9 +1455,9 @@ end
 ```
 </script></section><section data-markdown><script type="text/template">## Otros usos de iteradores 
 
-* Los iteradores no sólo se usan con array y hash
+* Los iteradores no sólo se usan con array y hash.
 * Su lógica es muy utilizada en clases de entrada / salida para retornar
-  líneas sucesivas o bytes
+  líneas sucesivas o bytes.
 
 ```ruby
 f = File.open("testfile")
@@ -1474,10 +1474,10 @@ end
 f.close
 ```
 </script></section><section data-markdown><script type="text/template">## inject
-* Este iterador tiene un nombre *raro*
-* Permite acumular un valor a lo largo de los miembros de una colección
-* Recibe un parámetro que es el valor inicial para comenzar a acumular
-  * Si no se especifica **toma el primer elemento de la colección**
+* Este iterador tiene un nombre *raro*.
+* Permite acumular un valor a lo largo de los miembros de una colección.
+* Recibe un parámetro que es el valor inicial para comenzar a acumular.
+  * Si no se especifica **toma el primer elemento de la colección**.
 
 ```ruby
 [1,3,5,7].inject(0) {|sum, element| sum+element}
@@ -1496,15 +1496,15 @@ Un uso más críptico de `inject`:
 ```
 </script></section><section data-markdown><script type="text/template">## Problema de iteradores
 * Los iteradores son muy cómodos pero:
-  * Son parte de la colección y no una clase a parte
+  * Son parte de la colección y no una clase a parte.
   * En otros lenguajes (como Java), las colecciones no implementan sus
     iteradores, sino que son clases separadas (como por ejemplo la interfaz 
-    Iterator de Java)
-  * Es complicado iterar dos colecciones simultáneamente
+    Iterator de Java).
+  * Es complicado iterar dos colecciones simultáneamente.
 </script></section><section data-markdown><script type="text/template">## Enumerators
 
-* La solución: clase `Enumerator`
-* Se obtiene de una colección con el método `to_enum` o `enum_for`
+* La solución: clase `Enumerator`.
+* Se obtiene de una colección con el método `to_enum` o `enum_for`.
 
 ```ruby
 a = [ 1, 3, "cat" ]
@@ -1527,9 +1527,9 @@ a.next
 </script></section><section data-markdown><script type="text/template">## El método loop
 <div class="small">
 
-* Ejecuta el código que se encuentra dentro del bloque
-* Se puede salir con break cuando se cumple una condición
-* Si hay iteradores, `loop` terminará cuando el Enumerator se quede sin valores
+* Ejecuta el código que se encuentra dentro del bloque.
+* Se puede salir con break cuando se cumple una condición.
+* Si hay iteradores, `loop` terminará cuando el Enumerator se quede sin valores.
 
 </div>
 
@@ -1580,11 +1580,11 @@ end
 
 <div class="fragment small">
 
-* No existe `each_with_index` en `String`
+* No existe `each_with_index` en `String`.
 * Pero sí existe `each_char` que es como `each` de `Array` pero sobre cada
-  caracter del string
-  * Si no enviamos un bloque, retornará un `Enumerator`
-* La interfaz `Enumerable` define el método `each_with_index`
+  caracter del string.
+  * Si no enviamos un bloque, retornará un `Enumerator`.
+* La interfaz `Enumerable` define el método `each_with_index`.
 </div>
 </script></section><section data-markdown><script type="text/template">## El código con String
 ```ruby
@@ -1602,16 +1602,16 @@ end
 <div class="small">
 
 * Podemos crear objetos enumerator explícitamente en vez de hacerlo a partir de
-  una colección
-* Para ello es necesario utilizar un bloque en la creación
+  una colección.
+* Para ello es necesario utilizar un bloque en la creación:
   * El código del bloque se usará por el objeto Enumerator cada vez que el
-    programa principal le solicite un nuevo valor
+    programa principal le solicite un nuevo valor.
   * Este bloque no se ejecutará como otros bloques dado que su ejecución
-    se disparará cada vez que se solicita el siguiente valor
+    se disparará cada vez que se solicita el siguiente valor.
   * La ejecución del bloque se pausa y vuelve al programa principal cuando se
-    encuentra `yield`
+    encuentra `yield`.
   * Cuando se solicita el siguiente valor, el código del bloque continúa a
-    partir de la línea siguiente al `yield`
+    partir de la línea siguiente al `yield`.
 </div>
 </script></section><section data-markdown><script type="text/template">## Enumerator como generadores
 Generamos **secuencias infinitas**:
@@ -1641,11 +1641,11 @@ fibonacci.first(1000).last
 
 <div class="small">
 
-* Cuidado con los enumerators que generan listas infinitas
+* Cuidado con los enumerators que generan listas infinitas.
 * Los metodos comunes de los enumeradores como `count` y `select` tratarán de
-  leer todos los elementos antes de retornar un valor
+  leer todos los elementos antes de retornar un valor.
   * Podemos escribir la versión de `select` adecuada a nuestra lista
-    infinita
+    infinita.
 
 </div>
 
@@ -1691,7 +1691,7 @@ p fibonacci.
   * Procesarlo
   * Cerrarlo
 * Si bien esto podemos hacerlo secuencialmente, utilizando bloques simplificamos
-  mucho 
+  mucho.
 </div>
 
 ```ruby
@@ -1708,14 +1708,14 @@ end
 <div class="small">
 
 * El método de clase implementado fue desarrollado para que entienda los mismos
-  parámetros que `File.open` 
+  parámetros que `File.open`.
 * Para ello, lo que hicimos es pasar los parámetros tal cual se enviaron a
-  `File.open`
+  `File.open`.
   * Esto se logra definiendo como argumento al método `*args` que significa:
     *tomar todos los argumentos enviados al método actual y colocarlos en un
-    arreglo llamado args*
+    arreglo llamado args*.
   * Luego llamamos a `File.open(*args)`. Utilizar *args vuelve a expandir los
-    elementos del arreglo a parámetros individuales
+    elementos del arreglo a parámetros individuales.
 </div>
 </script></section><section data-markdown><script type="text/template">## Versión completa de my_open
 ```ruby
@@ -1734,14 +1734,14 @@ end
 
 > Esta técnica es tan útil, que `File.open` ya lo implementa.  Además de usar `File.open`
 > para abrir un archivo, podemos usarlo para directamente procesarlo como lo hacíamos
-> con `open_and_process`
+> con `open_and_process`.
 </script></section><section data-markdown><script type="text/template">## Bloques como objetos
 * Anteriormente mencionamos que los bloques son como un parámetro
-  adicional pasado a un método
-* Podremos forzar bloques como parámetros explícitos
+  adicional pasado a un método.
+* Podremos forzar bloques como parámetros explícitos:
   * Utilizando & en el último parámetro, Ruby buscará el codigo
-    de un bloque cuando el método es invocado
-  * Este parámetro podrá utilizarse como cualquier otro
+    de un bloque cuando el método es invocado.
+  * Este parámetro podrá utilizarse como cualquier otro.
 </script></section><section data-markdown><script type="text/template">## Bloques como objetos
 
 ```ruby
