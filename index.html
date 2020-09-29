@@ -1236,7 +1236,11 @@ Usando expresiones regulares y el método `scan` todo parece muy simple:
 def words_from_string(string)
   string.downcase.scan(/[\w']+/)
 end
-```</script></section><section data-markdown><script type="text/template">### El método que cuenta las palabras
+```
+
+> Analizar otros ejeplos de scan. Por ejemplo probar:
+> 
+> `"0123456789".scan /.{2}/`</script></section><section data-markdown><script type="text/template">### El método que cuenta las palabras
 
 Con un hash indexaremos para cada palabra, la cantidad de ocurrencias.
 
@@ -1261,8 +1265,9 @@ end
 ```
 
 > `Hash.new` puede recibir como parámetro el valor usado para incializar cada
-> valor del Hash
-> [Descargar ejemplo](https://github.com/ttps-ruby/teoria/tree/master/ejemplos/words-frequency)
+> valor del Hash.  [Ver ejemplo](https://github.com/ttps-ruby/teoria/tree/master/ejemplos/words-frequency).
+> Es importante destacar que el ejemplo incluye tests para analizar cómo
+> desarrollar utilzando TDD.
 
 
 </script></section></section><section ><section data-markdown><script type="text/template">
