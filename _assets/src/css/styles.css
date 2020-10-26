@@ -66,6 +66,9 @@
   box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
 }
 
+.small .codeblock pre {
+  font-size: 15px;
+}
 
 .codeblock > button {
   margin-top: 5px;
