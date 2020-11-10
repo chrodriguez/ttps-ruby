@@ -3913,6 +3913,8 @@ Los nombres de las clases se pluralizan para encontrar las tablas
   la tabla **`book_clubs`**.
 </script></section><section data-markdown><script type="text/template">## Ejemplo de mapeos
 
+<div class="small">
+
 Las definiciones de estos mapeos son mediante otra gema llamda
 **`ActiveSupport`**.
 
@@ -3924,9 +3926,16 @@ Las definiciones de estos mapeos son mediante otra gema llamda
 | Mouse          | mice          |
 | Person         | people        |
 
-<div class="small fragment">
+<div class="fragment">
 
 Ver [ActiveSupport::Inflector](http://api.rubyonrails.org/classes/ActiveSupport/Inflector.html)
+
+```
+irb -r active_support/all
+ActiveSupport::Inflector.pluralize 'person'
+```
+
+</div>
 </div></script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate -->
 ## Convenciones
 
@@ -4117,13 +4126,17 @@ User.create!
 
 </div></script></section><section data-markdown><script type="text/template">## ¿Qué son las migraciones?
 
+* Son una implementación de [schema migrations](https://en.wikipedia.org/wiki/Schema_migration).
 * Las migraciones son una DSL para el manejo de esquemas de bases de datos
   llamados migraciones
 * Las migraciones se almacenan en archivos que son ejecutados contra una base de
   datos soportada por Active Record usando `rake`
-</script></section><section data-markdown><script type="text/template">## Migraciones
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate -->
+## Migraciones
 
 Ejemplo de una migración que crea una tabla
+
+<div class="small">
 
 ```ruby
 class CreatePublications < ActiveRecord::Migration
@@ -4142,7 +4155,9 @@ class CreatePublications < ActiveRecord::Migration
   end
 end
 ```
-</script></section></section><section  data-markdown><script type="text/template">## Migraciones
+</div>
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate -->
+## Migraciones
 
 * Las migraciones permiten tener un registro en la misma base de datos que
   indica qué cambios se han aplicado
@@ -4152,27 +4167,31 @@ end
 * Para deshacer un cambio hecho: `rake db:rollback`
 * La DSL es agnóstico a la base de datos: funciona en MySQL, SQLite, Oracle,
   Postgres, etc
+</script></section><section data-markdown><script type="text/template">
+## Ejemplo de migraciones
 
-<small>
-[Descargar ejemplo](images/samples/15/01-migrations.zip)
-</small>
-</script></section><section  data-markdown><script type="text/template">## Alternativas a las Migraciones
+[Ver ejemplo](https://github.com/ttps-ruby/teoria/tree/master/ejemplos/ar/02-migrations)
+</script></section><section data-markdown><script type="text/template">## Alternativas a las Migraciones
 
 Otros productos que hacen algo similar:
 
  * https://flywaydb.org/
  * http://www.liquibase.org/
-</script></section><section  data-markdown><script type="text/template"># Active Record
+</script></section><section data-markdown><script type="text/template"># validaciones
 
-##validaciones
-</script></section><section  data-markdown><script type="text/template">## Introducción
+<div class="main-list">
+
+* active record
+
+</div>
+</script></section><section data-markdown><script type="text/template">## Introducción
 
 * Garantizan que se guarden datos válidos en la base de datos
 * Hay alternativas:
   * Con validaciones en la DB como restricciones o store procedures, dificultan
     la portabilidad de la aplicación a otros motores. Además no es simple
     realizar los tests de la aplicación. Sin embargo, no es una mala práctica
-    aplicar restricciones en la base de datos</script></section><section  data-markdown><script type="text/template">## Introducción
+    aplicar restricciones en la base de datos</script></section></section><section  data-markdown><script type="text/template">## Introducción
 * Más alternativas
   * Del lado del cliente usando por ejemplo JS. Pero esta funcionalidad no
     aplica a todos los usuarios, dado que un navegador puede no diponer de JS o
