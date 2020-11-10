@@ -4,6 +4,11 @@
  font-family: "Courier New", Helvetica, sans-serif;
 }
 
+img.border {
+  border: #444 solid;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+}
+
 .main-list ul {
   list-style-type: disclosure-closed;
   font-family: "Courier New", Helvetica, sans-serif;
