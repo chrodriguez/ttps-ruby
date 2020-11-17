@@ -4959,7 +4959,995 @@ end
 * [Active Record Migrations](http://edgeguides.rubyonrails.org/migrations.html)
 
 
-</script></section></section></div>
+</script></section></section><section  data-markdown><script type="text/template">
+<img src="static/rails.svg" height="180px" />
+
+<div class="main-list">
+
+* introducción
+* un proyecto rails
+* gemas
+* configuraciones
+* ruteo
+</div></script></section><section ><section data-markdown><script type="text/template"># introducción
+
+<div class="main-list">
+
+* rails
+
+</div></script></section><section data-markdown><script type="text/template">## Cómo funciona la web
+
+* Contenidos: _HTML, imágenes, CSS, JS_.
+* Contenidos estáticos.
+* Contenidos dinámicos:
+  * Porque se conecta a una DB o servicio.
+  * Para simplificar el armado de la respuesta usando _partials_.</script></section><section data-markdown><script type="text/template">## Qué es rails
+* Conjunto de estructuras y convenciones.
+* Es una librería o conjunto de gemas.
+* Al usar rails,  estaremos usando prácticas estándar que simplificarán la
+  colaboración y el mantenimiento del código.
+* Promueve [Separation of Concerns (SoC)](http://en.wikipedia.org/wiki/Separation_of_concerns),
+  lo cual permite obtener programas modulares y mantenibles.
+* El principal patrón de diseño que implementa es MVC.
+
+<div class="small fragment">
+
+Al igual que con otros frameworks.
+</div>
+</script></section><section data-markdown><script type="text/template">## Stack tecnológico
+
+<div class="small" >
+
+Conjunto de tecnologías o librerías utilizadas para desarrollar una aplicación.
+
+* Un stack productivo podría ser:
+    * Linux
+    * WEB Server:
+      * Apache / NGINX
+      * PHP/Python/Ruby
+    * MariaDB/Postgres
+* Para el desarrollo con rails generalmente es:
+    * Mac/Linux/Windows
+    * Puma/Unicorn
+    * SQLite/MariaDB/Postgres
+    * Ruby
+</div></script></section><section data-markdown><script type="text/template">## El stack de rails
+
+* Un clásico stack de rails será:
+  * ERB for view templates
+  * MySQL for databases
+  * MiniTest for testing
+* Una alternativa:
+  * Haml for view templates
+  * PostgreSQL for databases
+  * Rspec for testing
+
+<div class="small">
+
+Las componentes podrán intercambiarse fácilmente, habiendo múltiples
+alternativas. Seguir las tendencias o componentes populares es una buena
+elección
+</div>
+</script></section><section data-markdown><script type="text/template">## Ayuda
+
+
+* Google: pero considerar resultados actuales
+* [Stack Overflow](http://stackoverflow.com/questions/tagged/ruby-on-rails)
+* [Rails Guides](http://guides.rubyonrails.org/)
+* [Rails Documentation](http://api.rubyonrails.org/)
+* [Rails Begginer Chat Sheet](http://pragtob.github.io/rails-beginner-cheatsheet/index.html)
+* [~~Rails casts~~](http://railscasts.com/): _videos desactualizados aunque
+  alguno podría ser útil_.</script></section><section data-markdown><script type="text/template">## Mantenerse actualizado
+
+* [Ruby on rails weblog](https://weblog.rubyonrails.org/)
+* [Ruby Weekly](http://rubyweekly.com/)
+* [Ruby Flow](http://www.rubyflow.com/)
+* [Changelog Rails](https://changelog.com/topic/rails)
+</script></section><section data-markdown><script type="text/template">## Instalando rails
+
+
+<div class="container">
+
+<div class="col fragment">
+
+```bash
+gem install rails
+```
+</div>
+<div class="col fragment">
+
+```bash
+rails -v
+```
+
+</div>
+</div>
+<div class="small fragment">
+
+* Es importante saber que disponemos de mensajes de ayuda para cada comando
+  rails usando **`--help`**.
+* Rails provee el comando `rails new` para crear una aplicación Rails básica
+</div>
+
+<div class="fragment">
+
+```bash
+rails new --help
+```
+</div>
+
+<div class="small fragment">
+
+> * La ayuda puede parecer extensa pero es importante leer las alternativas
+>   propuestas.
+> * No usaremos ninguna opción en esta primer instancia.
+> * Como resultado de la ejecución, se creará un directorio con carpetas y
+>   archivos en ella.
+
+</div>
+</script></section></section><section ><section data-markdown><script type="text/template"># un proyecto rails
+
+<div class="main-list">
+
+* rails
+
+</div></script></section><section data-markdown><script type="text/template">## Creamos una aplicación
+
+Asumimos ya instalada la gema de rails, corremos:
+
+```bash
+rails new ttps-ruby
+```
+
+> El parámetro **ttps-ruby** indica el nombre del proyecto. Puede usarse
+> cualquier nombre.
+
+<div class="small">
+
+El instalador sin opciones ha instalado varias gemas más que vienen con una
+aplicación rails por defecto:
+
+</div>
+
+```bash
+cd ttps-ruby && bundle info
+```
+
+> La instalación por defecto requiere node y yarn para poder integrar [webpacker](https://github.com/rails/webpacker/).
+</script></section><section data-markdown><script type="text/template">## Iniciamos el servidor web
+
+Con los pasos anteriores hemos creado una aplicación simple con valores por
+defecto que ya puede usarse:
+
+```bash
+$ bundle exec rails server
+```
+
+> Es posible que la aplicación no inicie si no se dispone de node/ yarn
+> instalados.
+
+<div class="fragment small">
+
+_Recordar la opción **`--help`** para ver más opciones para el subcomando
+server_.
+</div>
+</script></section><section data-markdown><script type="text/template">## Analizamos la aplicación
+
+* Accedemos a la aplicación usando la URL [http://localhost:3000](http://localhost:3000).
+* Observar que al usar el navegador, la consola donde se inició el web server
+  se actualiza con información.
+  * Estos mismos mensajes se almacenan en **`log/development.log`**.</script></section><section data-markdown><script type="text/template">## Paramos el servicio
+
+* El web server puede pararse con **Control+C**.
+* No es necesario reiniciar el servidor en caso de modificar el proyecto.
+  * Así sucede en el ambiente **development**.
+  * Los casos que requiere reiniciar son: 
+    * Cuando se cambia el **`Gemfile`**.
+    * Al cambiar archivos de configuración 
+</script></section><section data-markdown><script type="text/template">## Estructura del proyecto
+
+
+<div class="small">
+
+| Archivo | Descripción |
+| ---- | --- |
+| **`Gemfile[.loc]`** | Gemas del proyecto y lock |
+| **`README.md`** | Documentación en markdown |
+| **`app/`** | Carpetas y archivos de la aplicación |
+| **`config/`** | Carpetas y archivos de configuración |
+| **`db/`** | Carpetas y archivos de la DB |
+| **`public/`** | Archivos sin código ruby para ser servidos por un web server |
+| **`Rakefile/`** | Directivas para rake. Tareas de gestión del proyecto |
+| **`bin/`** | Ejecutables del proyecto |
+| **`config.ru`** | Configuración para Rack |
+| **`lib/`** | Directorio para código ruby variado |
+| **`log/`** | Logfiles del proyecto |
+| **`tmp/`** | Archivos temporales del proyecto |
+| **`vendor/`** | Librerías externas por fuera del Gemfile |
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate -->
+## El directorio app/
+
+<div class="small">
+
+Si listamos el contenido del directorio, nos encontramos con varias carpetas que
+estarán presentes en todo proyecto rails:
+</div>
+
+* `assets/`
+* `channels/`
+* **`controllers/`**
+* `helpers/`
+* `javascripts/`
+* `jobs/`
+* `mailers/`
+* **`models/`**
+* **`views/`**
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate -->
+## El directorio app/
+
+<div class="small">
+
+* Aquí se hace evidente el patrón **model view controller**.
+* La carpeta **`mailers/`** contempla código para el envío de mails.
+* La carpeta **`helpers/`** contiene **view helpers**, que son pequeñas porciones de
+  código reusable que generan HTML. Podríamos definirnos como macros que
+  expanden un pequeño comando en strings más extensos de tags HTML y contenido.
+* La carpeta **`assets/`** contiene estilos CSS y Javascripts que son procesados
+  por *assets pipeline*, mientras que **`javascripts/`** es utilizada por
+  **webpacker**.
+* La carpeta **`channels/`** contiene código de websockets.
+* La carpeta **`jobs/`** contiene tareas asíncronas.
+
+</div>
+</script></section></section><section ><section data-markdown><script type="text/template"># gemas
+
+<div class="main-list">
+
+* rails
+
+</div></script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate -->
+
+## Las Gemas de Rails
+* Rails en sí es una gema que requiere un conjunto de otras gemas:
+  * Esto puede verse en [Rubygems](https://rubygems.org/gems/rails)
+* Las gemas que depende rails son varias. A continuación las analizamos.</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate -->
+## Las Gemas de Rails
+<div class="small">
+
+* **[actioncable](https://github.com/rails/rails/tree/master/actioncable):**
+  integra websockets con rails.
+* **[actionmailbox](https://github.com/rails/rails/tree/master/actionmailbox):**
+  ruteo de mail entrante del estilo de controlador para su procesamiento en
+  rails.
+* **[actionmailer](https://github.com/rails/rails/tree/master/actionmailer):**
+  delivery de mails y testing.
+* **[actionpack](https://github.com/rails/rails/tree/master/actionpack):**
+  responsable del manejo de requerimientos y respuestas HTTP. Se encarga del
+  ruteo mapeando URLs en acciones mediante controladores. Las respuestas se
+  generan a partir de vistas. _Corresponde al M y C del paradigma MVC_.
+* **[actiontext](https://github.com/rails/rails/tree/master/actiontext):**
+  manejo de texto enriquecido y su edición en rails.
+* **[actionview](https://github.com/rails/rails/tree/master/actionview):**
+  responsable del templating de vistas y su renderización.Integra helpers que
+  asisten en la construcción de respuetas.
+* **[activejob](https://github.com/rails/rails/tree/master/activejob):**
+  manejo de tareas asíncronas agnóstico del backend de manejo de colas.
+* **[activemodel](https://github.com/rails/rails/tree/master/activemodel):**
+  provee módulos con funcionalidades similares a las presentes en AR. De esta
+  forma, actionpack puede utilizar ActiveModels como objetos AR de forma
+  indiferente dando independencia del ORM que podría se personalizado.
+</div></script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate -->
+## Las Gemas de Rails
+<div class="small">
+
+* **[activerecord](https://github.com/rails/rails/tree/master/activerecord):**
+  framework para la abstracción de la bases de datos. _Un ORM que representa la
+  M de MVC_.
+* **[activestorage](https://github.com/rails/rails/tree/master/activestorage):**
+  simplifica el upload y gestión de archivos en proveedores de cloud mediante
+  referencias. Se integra fácilmente con [AWS S3](https://aws.amazon.com/s3/),
+  [Google Cloud Storage](https://cloud.google.com/storage/docs/), [Microsoft Azure
+  Storage](https://azure.microsoft.com/en-us/services/storage/), almacenando las
+  referencias correspondientes en AR. Soporta además un servicio principal y
+  otros como espejos para ofrecer redundancia. Puede usarse localmente para
+  deployment locales o desarrollo, pero su foco principal está en storage en la
+  nube.
+* **[activesupport](https://github.com/rails/rails/tree/master/activesupport):**
+  extensiones a Ruby y clases que proveen mayor funcionalidad.
+* **[bundler](http://gembundler.com/):** gestión de dependencias.
+* **[railties](https://github.com/rails/rails/tree/master/railties):** se encarga del
+  [bootstrap de aplicaciones rails](https://guides.rubyonrails.org/initialization.html)
+  (cuando usamos `rails server`),  comandos de consola y generadores.
+* **[sprockets-rails](https://github.com/rails/sprockets-rails):** implementa el
+  assets pipeline basado en [Sprockets](https://github.com/rails/sprockets).
+
+<div></script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate -->
+## Las Gemas de Rails
+
+_Estas gemas a su vez tienen dependencias, dando un total de aproximadamente 70
+gemas_.
+</script></section><section data-markdown><script type="text/template">## Otras gemas
+
+<div class="small">
+
+Además de la gema de rails, el comando **`rails new`** agrega otras gemas:
+
+<div class="container">
+
+<div class="col">
+
+* sqlite3
+* puma
+* sass-rails
+* webpacker
+* turbolinks
+* jbuilder
+* tzinfo-data
+
+</div>
+<div class="col">
+
+* development:
+  * byebug
+  * web-console
+  * listen
+  * spring
+* test:
+  * capybara
+  * selenium-webdriver
+  * webdrivers
+
+</div>
+</div>
+<div class="fragment" >
+
+Puede que no se utilice ni SQLite, SCSS, jQuery u otras gemas, pero la mayoría
+de los desarrollos las utilizan y por ello se consideran
+</div>
+</div>
+</script></section><section data-markdown><script type="text/template">## Gemas externas
+
+Gemas que podemos utilizar para implementar ciertas funcionalidades de forma más
+cómoda:
+
+* **[simple_form](https://github.com/heartcombo/simple_form):** simplifica el
+  uso de forms.
+* **[ransack](https://github.com/activerecord-hackery/ransack):** busquedas
+  simples.
+* **[kaminari](https://github.com/kaminari/kaminari):** pager de modelos.
+* **[lograge](https://github.com/roidrage/lograge):** normaliza los logs.
+* **[devise](https://github.com/heartcombo/devise):** solución de autenticación
+  flexible.
+* **[cancancan](https://github.com/CanCanCommunity/cancancan):** librería de
+  autorización
+</script></section></section><section ><section data-markdown><script type="text/template"># configuraciones
+
+<div class="main-list">
+
+* rails
+
+</div></script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate -->
+## Configuraciones
+
+* Rails es conocido por su lema: **convention over configuration**
+  * Al aplicarlo, se reducen muchas configuraciones.
+  * No todas las configuraciones pueden eliminarse.
+  * Las aplicaciones requieren credenciales o API keys para poder funcionar.
+* El versionado con **git** debe evitar el guardado de estas credenciales.</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate -->
+## Configuraciones
+<div class="small" >
+
+* Una buena práctica es usar variables de entorno dado que:
+  * La soportan todos los SO, así como PaaS como Heroku y otras
+    plataformas de deployment como Swarm y Kubernetes.
+  * Las variables de ambiente pueden accederse desde ruby.
+  * Mantienen la privacidad del proyecto de forma independiente.
+  * La gema **[figaro](https://github.com/laserlemon/figaro)** permite setear
+    variables desde el shell o desde un archivo de configuración
+  * La gema **[dotenv-rails](https://github.com/bkeepers/dotenv)** permite setear
+    variables desde un archivo `.env` en `ENV`
+* A partir de rails 5.2 aparecen [Rails
+  credentials](https://edgeguides.rubyonrails.org/security.html#custom-credentials)
+</div></script></section><section data-markdown><script type="text/template">## Cómo usar env vars
+
+* Las variables de entorno se usan mediante la constante **ENV**.
+* Supongamos que se necesita configurar en alguna parte de nuestra aplicación,
+  un servidor de mail:
+
+<div class="small">
+
+```ruby
+config.action_mailer.smtp_settings = {
+  address: "smtp.gmail.com",
+  port: 587,
+  domain: ENV["DOMAIN_NAME"],
+  authentication: "plain",
+  enable_starttls_auto: true,
+  user_name: ENV["GMAIL_USERNAME"],
+  password: ENV["GMAIL_PASSWORD"]
+}
+```
+
+<div class="fragment" >
+
+_¿De qué forma seteamos los valores **`DOMAIN_NAME`**, **`GMAIL_USERNAME`** y
+  **`GMAIL_PASSWORD`**?_
+</div>
+</div>
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate -->
+## Cómo usar figaro
+
+Agregamos al `Gemfile`
+
+```ruby
+gem 'figaro'
+```
+
+Instalamos la gema con bundler
+
+```bash
+bundle install
+```
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate -->
+## Cómo usar figaro
+
+* Esta gema setea las variables de entorno antes de hacer cualquier otra cosa.
+* Los valores se leen desde un archivo: **`config/application.yml`**.
+* Al instalar figaro, se crea el archivo **`config/application.yml`** y
+  modificará **`.gitignore`** para ignorar esta configuración.
+* La gema entra en acción cuando se ejecute: **`bundle exec figaro install`**.
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate -->
+## Cómo usar figaro
+
+Completamos la instalación con:
+
+```bash
+bundle exec figaro install
+```
+
+Editamos `config/application.yml`
+
+```yaml
+GMAIL_USERNAME: mygmailusername
+GMAIL_PASSWORD: mygmailpassword
+development:
+  GMAIL_USERNAME: otherusername
+  GMAIL_PASSWORD: otherpassword
+```
+</script></section></section><section ><section data-markdown><script type="text/template"># ruteo
+
+<div class="main-list">
+
+* rails
+
+</div></script></section><section data-markdown><script type="text/template">## Páginas estáticas y ruteo
+* Una aplicación rails puede servir páginas estáticas como cualquier web server.
+* Estas páginas no contienen código ruby: _esto hace que se sirvan de forma más
+  rápida y usando menos recursos_.
+* Empezar por crear páginas estáticas nos ayudará a entender el ruteo en rails.
+
+<div class="small fragment">
+
+Es importante diferenciar un **application server** de un **web server**.
+</div>
+</script></section><section data-markdown><script type="text/template">## Agregamos la home page
+
+* Nos aseguramos tener iniciado el server rails: **`bundle exec rails s`**
+* Ingresamos a [http://localhost:3000/](http://localhost:3000/)
+* Veremos la página de información por defecto de rails.
+
+**Creemos el archivo `public/index.html`**
+
+```html
+<h1> Hello World </h1>
+```
+
+> * Actualizamos la página y...rails observará los cambios de la carpeta `public/`
+> * Si no se especifica ningún archivo en la URL, se asume **index.html**
+</script></section><section data-markdown><script type="text/template">## Error de ruteo
+
+¿Qué sucede si accedemos a [http://localhost:3000/about.html](http://localhost:3000/about.html)?
+
+![routing error](images/16/01-routing-error.png)
+</script></section></section><section  data-markdown><script type="text/template">## Agregamos public/about.html
+
+```html
+
+<h1> About </h1>
+
+```
+
+*Ahora todo debería funcionar bien*
+</script></section><section  data-markdown><script type="text/template"># Ruteo</script></section><section  data-markdown><script type="text/template">## Introduciendo el ruteo
+* El principio de *convention over configuration* gobierna el ruteo en rails
+* Si un navegador solicita **index.html** entonces Rails servirá la página desde
+  el directorio `public/` por defecto
+	* No se necesita configuración para ello
+* ¿Si queremos cambiar este comportamiento?
+	* Haremos que la home page sea ahora el about
+	* Debemos **eliminar** public/index.html: `rm public/index.html`
+</script></section><section  data-markdown><script type="text/template">## Editamos config/routes.rb
+
+```ruby
+Rails.application.routes.draw do
+  root to: redirect('/about.html')
+end
+```
+</script></section><section  data-markdown><script type="text/template"># Una reflexión
+* El caso anterior es un ejemplo de la *magia de rails* 
+* Algunos desarrolladores consideran que *convention over configuration* es
+  **magia negra**
+* No es obvio el por qué las páginas se sirven de `public/`
+* Si se desconoce esta convención, podemos rompernos la cabeza buscando donde se
+  mapea que http://localhost:3000 sirva `public/index.html`
+	* El código que implementa esto, está enterrado profundamente en el corazón de
+	  rails</script></section><section  data-markdown><script type="text/template">## Request & response
+* Analizaremos el patron MVC desde la perspectiva de la web
+* Debemos considerar que la WEB no es más que navegadores que solicitan páginas
+  a un servidor
+* Los navegadores realizan **requerimientos** (request)</script></section><section  data-markdown><script type="text/template">## Request & response
+* Los servidores **responden** (response) a estos requerimientos, enviando, por ejemplo, un
+  HTML.
+  * Dependiendo en los encabezados del HTML, el navegador deberá realizar más
+    requerimientos para obtener estilos, javascripts e imagenes
+* La simplicidad de HTTP hace que no haya más que los requerimientos de un
+  navegador y las respuestas de un servidor
+  * Hoy día existe además el streaming de audio/video que requieren un pipe
+    entre el navegador y el servidor, pero aún así, un requerimiento y respuesta inicial 
+    hacen posible la incialización del stream
+</script></section><section  data-markdown><script type="text/template">## El ciclo request / response
+
+![request repsonse](images/16/02-request-response.png)
+</script></section><section  data-markdown><script type="text/template">## Analizando el ciclo desde el navegador
+* Es aconsejable usar [Google Chrome](https://www.google.com/chrome)
+* Antes de investigar algo, es conveniente utilizar el **modo incógnito**: que
+  se accede usando **Shift+Ctrl+N** (**Shift+Ctrl+P** en Firefox)
+  * Alternativamente puede limpiarse la caché del navegador para así limpiar
+    cualquier solicitud previamente cacheada por el navegador 
+* Abrimos la vista *Developer Tools* usando **Shift+Ctrl+I**
+  * Seleccionamos el tab **Network**
+  * Realizamos el requerimiento [http://localhost:3000/about.html](http://localhost:3000/about.html)
+  * Visualizaremos los archivos recibidos desde el servidor: sólo uno
+    **about.html**</script></section><section  data-markdown><script type="text/template">## Analizando el ciclo desde el navegador
+
+Así debe verse el requerimiento
+
+![ejemplo chrome ok](images/16/03-navegador-ok.png)
+</script></section><section  data-markdown><script type="text/template">## Analizando el ciclo desde el navegador
+
+Notar cuando no es "fresco" el requerimineto
+
+![ejemplo chrome ok](images/16/03-navegador-not-ok.png)
+</script></section><section  data-markdown><script type="text/template">## El detalle del requerimiento
+
+<small>
+Cliqueando sobre el nombre del archivo, y luego sobre la solapa **Headers**, se visualiza el detalle del requerimiento y su respuesta
+</small>
+
+![ejemplo chrome detalle](images/16/04-navegador-detalle.png)
+</script></section><section  data-markdown><script type="text/template">## Analizamos lo que muestra el navegador
+* Que el requerimiento se compone de:
+  * Un request a la URL http://localhost:3000/about.html 
+  * Que el método HTTP empleado fue GET
+  * Los headers del request incluyendo cookies y el identificador del UA
+* La respuesta se compone de:
+  * El código de estado: 200 OK o 304 Not modified
+  * Los headers de la respuesta: incluyendo fecha y hora, así como el
+    identificador del servidor
+  * HTML
+
+<small>
+Ahora podemos analizar cómo el requerimiento a **http://localhost:3000/**
+devuelve dos entradas por el redirect
+</small>
+</script></section><section  data-markdown><script type="text/template">## Analizamos ahora desde el lado del servidor
+* Hasta ahora vimos las herramientas que disponemos desde el navegador
+  * Pero no podemos visualizar qué es lo que sucede en el servidor
+
+**La ventana de consola del servidor muestra:**
+
+```bash
+
+Started GET "/" for 127.0.0.1 at ...
+
+```
+
+<small>
+Es importante destacar que no hay logs para los archivos servidos desde la
+carpeta `public/`
+</small>
+</script></section><section  data-markdown><script type="text/template"># Model View Controller</script></section><section  data-markdown><script type="text/template">## MVC en la web
+
+El siguiente gráfico muestra qué sucede en el servidor durante el ciclo
+request-response 
+
+![ciclo request response](images/16/05-ciclo-completo-rails.png)
+
+<small>
+Algunos expertos opinan que la arquitectura de la web no se ajusta al original
+diseño de MVC creado para aplicaciones visuales de escritorio
+</small>
+
+</script></section><section  data-markdown><script type="text/template">## MVC en rails
+![MVC en rails](images/16/06-mvc-rails.png)
+</script></section><section  data-markdown><script type="text/template">## MVC en rails
+* En la base del stack está el navegador: el requerimiento fluye subiendo por
+  las capas hasta llegar al **router** que despachará al controlador apropiado
+* Existe un único `config/routes.rb` y múltiples controladores, modelos y vistas
+* El controlador, al recibir el flujo, obtendrá datos de algún **modelo**
+* Con los datos listos, el controlador renderizará la respuesta combinando los
+  datos del modelo con una componente de **vista** que provea layout y markup
+</script></section><section  data-markdown><script type="text/template">## MVC en rails
+* Los archivos del model, controller y view serán código ruby
+* Cada archivo tendrá una estructura y sintaxis específica basada en cómo se ha
+  definido por el mismo framework
+* Cada model, view y controller que creemos *heradará* comportamiento de
+  superclases que son parte del farmework, minimizando lo que debemos codificar
+</script></section><section  data-markdown><script type="text/template">## Models en Rails
+* En la mayor parte de las aplicaciones rails, un modelo obtiene datos de una base de datos
+* Sin embargo, en otros casos se obtienen de conexiones a otros servidores
+* Ejemplos:
+  * El model **User** podría obtener el nombre y email desde una base de datos
+    local
+  * El mismo modelo, podría además obtener los tweets recientes de Twitter para
+    este mismo usuario, o la ciudad en la que vive desde Facebook</script></section><section  data-markdown><script type="text/template">## Controllers en Rails
+* Un controlador podría obtener datos de más de un modelo si fuera necesario
+* Generalmente un controlador posee más de una **acción**.
+  Por ejemplo, un controlador para User podría tener acciones para listar los
+usuarios, agregar o eliminar un usuario de la lista
+* El archivo `config/routes.rb` macheará el requermiento web a una acción del
+  controlador
+* En Rails se trata de limitar las acciones en un controlador a las siete
+  acciones siguientes: `index`, `show`, `new`, `create`, `edit`, `update` y
+`destroy`
+  * Un controlador que implementa estas acciones se dice que es **RESTful**
+</script></section><section  data-markdown><script type="text/template">## Views en Rails
+* Una vista combina código ruby con markup HTML. 
+* Generalmente tendremos una vista asociada a cada acción de un controlador
+  * Una vista para **index** debería mostrar una lista de usuarios
+  * La vista **show** proveerá detalles del perfil de un usuario</script></section><section  data-markdown><script type="text/template">## Views en Rails
+* Las vistas tendrán una sintaxis muy similar a HTML convencional, pero con
+  algunos datos que se extraen de variables ruby o estructuras de control como
+loops que permitirán crear tablas.
+  * Siguiendo el principio de Separation of Concerns, es considerada una buena práctica limitar el
+uso de código ruby en las vistas a sólo utilizarlo para imprimir valores de
+variables.
+  * Cualquier otra cosa será responsabilidad del modelo
+* No todas las acciones tendrán una vista: por ejemplo la acción **destroy**
+  usualmente redirige al **index**, y **create** redirige o al **show** o al
+**new**</script></section><section  data-markdown><script type="text/template">## Home dinámica
+*Planificamos nuestro trabajo definiendo un User story*
+
+**Birthday countdown**
+
+* As a visitor to the website
+  * I want to see the owner's name
+  * I want to see the owner's birthdate
+  * I want to see how many days until the 
+  *   owner's next birthday
+  * In order to send birthday greetings
+</script></section><section  data-markdown><script type="text/template">## La elección de nombres
+* Mucho en el arte de la programación radica en elegir nombres correctos para
+  nuestras creaciones
+* Necesitamos un modelo que represente el site owner. 
+  * Elegiremos el nombre más obvio: **Owner** y cremos el archivo
+`app/models/owner.rb`
+* El nombre del controlador abre otro debate
+  * Nos podríamos tentar por *Home controller* o *Welcome controller*
+  * Si bien son nombres aceptables, si consideramos el **User Story** el nombre
+    **Visitors controller** es más adecuado porque **visitor** es el actor
+  * Creamos entonces `app/controllers/visitors_controller.rb`
+</script></section><section  data-markdown><script type="text/template">## Convenciones de nombres
+* En rails es importante como se llaman los archivos y clases definidas en
+  ellos.
+* Esto se debe al principio CoC
+* Esto evita configuraciones innecesarias
+* Al escribir código
+  * `class Visitor < ActiveRecord::Base` *los nombres de las clases de modelo
+    son en singular y en mayúscula*
+  * `class VisitorsController < ApplicationController` *los nombres de
+    controladores son la combinación de un nombre de modelo en plural con
+    __Controller__ en camel case*</script></section><section  data-markdown><script type="text/template">## Convenciones de nombres
+* Los archivos:
+  * Los archivos de modelo coinciden con el nombre del modelo , pero en
+    minúscula: `app/models/visitor.rb`
+  * Los archvios de controlador coinciden con la clase, pero usando snake case:
+  `app/controllers/visitors_controller.rb`
+  * La carpeta de las vistas coinciden con el nombre de la clase del modelo,
+    pero en plural y en minúscula: `app/views/visitors`
+</script></section><section  data-markdown><script type="text/template">## Routing
+Crearemos primero el ruteo antes de implementar el model y controller
+
+### Editamos config/routes.rb
+
+```ruby
+Rails.application.routes.draw do
+  root to: 'visitors#new'
+end
+```
+
+* Los detalles de la sintaxis de este archivo puede 
+  entenderse bien leyendo [Routing from outside in](http://guides.rubyonrails.org/routing.html)
+* Modificando `config/routes.rb` no requiere reiniciar
+</script></section><section  data-markdown><script type="text/template">## Probamos http://localhost:3000
+
+Esperamos obtener un error
+
+![Error sin better errors](images/16/07-no-better-errors.png)
+
+El error es claro: **uninitialized constant VisitorsController** indicando que
+Rails busca la clase y no puede encontrarla
+
+<small>
+Podemos mejorar el error agregando la gema `better_errors` al `Gemfile`
+</small>
+</script></section><section  data-markdown><script type="text/template">## El modelo
+
+* La mayoría de los modelos rails obtienen datos desde una base de datos
+* Cuando se utiliza una base de datos, es posible usar el comando: `rails
+  generate model` para crear un modelo que hereda de **ActiveRecord**
+y conoce como conectarse con la base de datos
+* Para este ejemplo no necesitamos una base de datos
+	* Nuestra clase simplemente definirá los métodos necesarios
+</script></section><section  data-markdown><script type="text/template">## Implementamos el Modelo
+
+```ruby
+class Owner
+  def name
+    'Foobar Kadigan'
+  end
+
+  def birthdate
+    Date.new(1990, 12, 22)
+  end
+
+  def countdown
+    today = Date.today
+    birthday = Date.new(today.year, 
+            birthdate.month, 
+            birthdate.day)
+    if birthday > today
+      countdown = (birthday - today).to_i
+    else
+      countdown = (birthday.next_year - today).to_i
+    end
+  end
+
+end
+```
+</script></section><section  data-markdown><script type="text/template">## La Vista
+* Como ya mencionamos en las convenciones de nombres, las vistas van en
+  `app/views/`
+* En una aplicación convencional, un controlador puede renderizar múltiples
+  vistas, por lo tanto se crea un directorio para cada controlador
+  * En nuestro caso creamos `mkdir app/views/visitors`
+
+**Creamos entonces `app/views/visitors/new.html.erb`**
+
+```html
+<h3>Home</h3>
+<p>Welcome to the home of <%= @owner.name %>.</p>
+<p>I was born on <%= @owner.birthdate %>.</p>
+<p>Only <%= @owner.countdown %> days until my birthday!</p>
+```
+</script></section><section  data-markdown><script type="text/template">## La Vista
+* Con lo anterior tenemos únicamente la vista **new** para el controlador
+  visitor
+* La extensión es **erb** porque usamos el motor ERB para armar nuestros
+  templates
+* En el ejemplo, y por defecto en rails, se utiliza ERB, pero es posible utilizar gemas que
+  proveen [Haml](http://railsapps.github.io/rails-haml.html) o [Slim](http://slim-lang.com/) como motores de templating. 
+  * Si usaramos por ejemplo haml, la vista sería **new.html.haml**
+* En la vista, podemos ver que el markup de ERB utiliza los tags `<%=` y
+  `%>`</script></section><section  data-markdown><script type="text/template">## La Vista
+* El acceso a los datos del modelo **Owner** se hace a través de `@owner`
+  * Esto se entenderá mejor cuando creemos el controlador
+
+**Podríamos preguntarnos por qué usar:**
+
+```erb
+<%= @owner.countdown %>
+```
+
+en vez de
+
+```erb
+<%= (Date.new(today.year, @owner.birthdate.month, @owner.birthdate.day) - Date.today).to_i %>
+```
+
+<small>
+  Podríamos hacerlo, pero violaríamos SoC
+</small>
+</script></section><section  data-markdown><script type="text/template">## El controlador
+
+* Será el *pegamento* entre el modelo Owner y la vista
+  **VisitorsController#new**
+  * Cuando hagamos referencia a una acción en un controlador, usaremos la
+    notación *VisitorsController#new* uniendo el nombre de la clase del
+controlador con el de la acción (que es un método). En este contexto, el
+caracter **#** es una convención usada en la documentación 
+  * El nombre de la clase será `VisitorsController` pero el nombre del archivo
+    **visitors_controller.rb**
+</script></section><section  data-markdown><script type="text/template">## Escribimos el controlador
+Creamos `app/controllers/visitors_controller.rb`
+
+```ruby
+class VisitorsController < ApplicationController
+  def new
+    @owner = Owner.new
+  end
+end
+```
+
+**¿Qué hace?**
+
+* Al ser subclase de ApplicationController hereda todo el comportamiento
+  definido por la API de rails
+* Solo implementa el método `new`
+  * Creamos una variable de instancia `@owner` dado que en la vista
+    correspondiente estará disponible. 
+</script></section><section  data-markdown><script type="text/template">## Relación controlador y vista
+
+* Ya creamos una vista llamada `app/views/visitors/new.html.erb`
+* El controlador es muy simple dado que el comportamiento oculto que invoca la
+  vista *new* es heredado de la API de rails.
+  * Podemos hacer explícita esta relación
+
+**Indicando qué vista usar en el controlador**
+
+```ruby
+class VisitorsController < ApplicationController
+  def new
+    @owner = Owner.new
+    render 'visitors/new'
+  end
+end
+```</script></section><section  data-markdown><script type="text/template">## Scaffolding
+* La mejor forma de entender la arquitectura MVC de rails es examinando cada una
+  de las partes como hemos hecho hasta aquí
+* Si se lee la guía de rails: [Getting Started with Rails](http://guides.rubyonrails.org/getting_started.html) veremos que se utiliza mucho el comando `rails generate scaffold` que permite crear MVC en una única operación
+	* Esta operación es muy usada para desarrollar módulos simples en rails</script></section><section  data-markdown><script type="text/template">## Resolviendo problemas
+
+* Veremos algunas técnicas que ayudan a resolver problemas
+  * Rails console
+  * Rails logger
+  * Stack trace
+  * Raising exceptions
+</script></section><section  data-markdown><script type="text/template">## Rails console
+* IRB solamente evalúa expresiones que son definidas por la API de ruby
+* IRB no conoce las clases de rails
+* Rails console carga toda la aplicación rails en una consola IRB
+
+```bash
+$ bundle exec rails console
+Loading development environment (Rails X.Y.Z)
+irb(main):001:0> 
+```
+
+<small>
+*Notamos que se cargó el ambiente de development*
+</small>
+</script></section><section  data-markdown><script type="text/template">## Rails console
+Inspeccionamos el modelo
+
+```bash
+irb(main):001:0> owner = Owner.new
+=> #<Owner:0x007f7eccd77e48>
+
+irb(main):002:0> owner.name
+=> "Foobar Kadigan"
+```</script></section><section  data-markdown><script type="text/template">## Rails logger
+* Las aplicaciones rails envían información de diagnóstico a un *archivo de log*
+* Dependiendo del ambiente en el que corre la aplicación, el log será:
+	* **log/development.log**
+	* **log/production.log**
+* En el ambiente de desarrollo, todo log escrito en el archivo es además enviado
+  a la consola de donde se corre el comando `rails server`
+* Además de los logs por defecto de rails, podemos usar nosotros **logger**
+</script></section><section  data-markdown><script type="text/template">## Rails logger
+Modificamos `app/controllers/visitors_controller.rb`
+
+```ruby
+class VisitorsController < ApplicationController
+  def new
+    Rails.logger.debug 'DEBUG: entering new method'
+    @owner = Owner.new
+    Rails.logger.debug "DEBUG: Owner name is #{@owner.name}"
+  end
+end
+```
+
+Ahora la salida en la consola será
+
+```bash
+Started GET "/" for 127.0.0.1 at ...
+Processing by VisitorsController#new as HTML
+DEBUG: entering new method
+DEBUG: Owner name is Foobar Kadigan
+Rendered visitors/new.html.erb within layouts/application (0.2ms)
+Completed 200 OK in 8ms (Views: 4.6ms | ActiveRecord: 0.0ms)
+```
+</script></section><section  data-markdown><script type="text/template">## Rails logger
+* Podemos usar **Rails.logger** en nuestros modelos
+* En los controladores, es posible usar el método **logger** directamente
+* Es posible usar:
+  * `logger.debug`
+  * `logger.info`
+  * `logger.warn`
+  * `logger.error`
+  * `logger.fatal`
+* En el ambiente de desarrollo todos los logs se mostrarán
+* En el ambiente de producción no se visualizarán los logs enviados a
+  `logger.debug`
+</script></section><section  data-markdown><script type="text/template">## El Stack Trace
+
+* Si bien el logger es muy útil, hay casos en donde el programa se colgará y la
+  consola mostrará un *stack trace*
+* Provocamos un error agregando en el controlador un error
+
+**Generamos el error**
+
+```ruby
+class VisitorsController < ApplicationController
+  def new
+    Rails.logger.debug 'DEBUG: entering new method'
+    @owner = Owner.new
+    Rails.logger.debug 'DEBUG: Owner name is ' + @owner.name
+    DISASTER
+  end
+end
+```
+
+<small>En vez de DISASTER, podría haberse usado `console` proporcionado por
+**web-console**</small></script></section><section  data-markdown><script type="text/template">## Al ingresar a la página veremos
+![error stack trace](images/16/08-stacktrace.png)
+</script></section><section  data-markdown><script type="text/template">## El Stack Trace
+
+La captura muestra el error así porque usamos la gema **web-console**
+
+### En la consola veremos
+```bash
+Started GET "/" for 127.0.0.1 at 2013-12-08 20:09:18 -0300
+Processing by VisitorsController#new as HTML
+DEBUG: entering new method
+DEBUG: Owner name is Foobar Kadigan
+Completed 500 Internal Server Error in 2ms
+
+NameError - uninitialized constant VisitorsController::DISASTER:
+  activesupport (4.0.1) lib/active_support/dependencies.rb:501:in `load_missing_constant'
+  ...
+```
+</script></section><section  data-markdown><script type="text/template">## El Stack Trace
+* No hay que sentirse abrumado por la cantidad de información
+* Muchas veces la explicación del problema está en la primer línea
+* Otras veces tenemos que avanzar sobre la pila leyendo cuidadosamente el
+  problema
+</script></section><section  data-markdown><script type="text/template">## Lanzando excepciones
+* El ejemplo del stack trace hace uso de una directiva desconocida por rails
+* Una solución más elegante sería lanzar una excepción
+
+```ruby
+class VisitorsController < ApplicationController
+def new
+  Rails.logger.debug 'DEBUG: entering new method'
+    @owner = Owner.new
+    Rails.logger.debug ".."
+    raise 'Deliberate Failure'
+  end
+end
+```
+
+### Más recursos...
+[RailsGuide: Debugging Rails Applications](http://guides.rubyonrails.org/debugging_rails_applications.html)</script></section><section  data-markdown><script type="text/template">## Referencias
+* [Learn Ruby on Rails](http://learn-rails.com/learn-ruby-on-rails.html)
+* [Rails Guides](http://guides.rubyonrails.org/)
+* [Rails Documentation](http://api.rubyonrails.org/)
+* [Rails Beginner Cheat Sheet](http://pragtob.github.io/rails-beginner-cheatsheet/index.html)
+* [Railscasts](http://railscasts.com/)
+* [Uso de concerns: como poner a dieta los modelos regordetes](http://37signals.com/svn/posts/3372-put-chubby-models-on-a-diet-with-concerns)
+***
+
+</script></section></div>
     </div>
 
     <script src="./dist/reveal.js"></script>
