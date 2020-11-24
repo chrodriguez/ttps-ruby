@@ -4969,6 +4969,8 @@ end
 * gemas
 * configuraciones
 * ruteo
+* mvc
+* ejemplo
 </div></script></section><section ><section data-markdown><script type="text/template"># introducción
 
 <div class="main-list">
@@ -5110,7 +5112,7 @@ aplicación rails por defecto:
 </div>
 
 ```bash
-cd ttps-ruby && bundle info
+cd ttps-ruby && bundle list
 ```
 
 > La instalación por defecto requiere node y yarn para poder integrar [webpacker](https://github.com/rails/webpacker/).
@@ -5157,7 +5159,7 @@ server_.
 | **`config/`** | Carpetas y archivos de configuración |
 | **`db/`** | Carpetas y archivos de la DB |
 | **`public/`** | Archivos sin código ruby para ser servidos por un web server |
-| **`Rakefile/`** | Directivas para rake. Tareas de gestión del proyecto |
+| **`Rakefile`** | Directivas para rake. Tareas de gestión del proyecto |
 | **`bin/`** | Ejecutables del proyecto |
 | **`config.ru`** | Configuración para Rack |
 | **`lib/`** | Directorio para código ruby variado |
@@ -5224,7 +5226,7 @@ estarán presentes en todo proyecto rails:
 * **[actionpack](https://github.com/rails/rails/tree/master/actionpack):**
   responsable del manejo de requerimientos y respuestas HTTP. Se encarga del
   ruteo mapeando URLs en acciones mediante controladores. Las respuestas se
-  generan a partir de vistas. _Corresponde al M y C del paradigma MVC_.
+  generan a partir de vistas. _Corresponde al V y C del paradigma MVC_.
 * **[actiontext](https://github.com/rails/rails/tree/master/actiontext):**
   manejo de texto enriquecido y su edición en rails.
 * **[actionview](https://github.com/rails/rails/tree/master/actionview):**
@@ -5338,9 +5340,9 @@ cómoda:
 <div class="small" >
 
 * Una buena práctica es usar variables de entorno dado que:
-  * La soportan todos los SO, así como PaaS como Heroku y otras
+  * La soportan todos los SO, PaaS como Heroku y otras
     plataformas de deployment como Swarm y Kubernetes.
-  * Las variables de ambiente pueden accederse desde ruby.
+  * Obviamente que las variables de ambiente pueden accederse desde ruby.
   * Mantienen la privacidad del proyecto de forma independiente.
   * La gema **[figaro](https://github.com/laserlemon/figaro)** permite setear
     variables desde el shell o desde un archivo de configuración
@@ -5414,6 +5416,35 @@ development:
   GMAIL_USERNAME: otherusername
   GMAIL_PASSWORD: otherpassword
 ```
+</script></section><section data-markdown><script type="text/template">
+## Rails credentials
+
+* A partir de rails 5.2, al crear una aplicación rails se crea **`config/credentials.yml.enc`**.
+* Las credenciales en este archivo se editan usando **`rails
+  credentials:edit`**:
+  * Este comando generará si no existe una _**clave maestra**_.
+  * Con este comando podremos editar `credentials.yml.enc` y versionarlo de
+    forma segura.
+  * Nunca debemos versionar la clave maestra.</script></section><section data-markdown><script type="text/template">
+## Ejemplo credentials
+
+<div class="small">
+
+* Si usamos **`rails credentials:edit`** manejamos una configuración con todos
+  los parámetros de cada ambiente en forma jerárquica.
+* Si usamos **`rails credentials:edit --environment development`** tendremos un
+  par de archivos por ambiente: 
+  * **`config/credentials/development.yml.enc`**
+  * **`config/credentials/development.key`**
+
+**Usamos desde rails las credenciales de la siguiente forma:**
+
+```ruby
+Rails.application.credentials[:some_key] # Only specific value
+Rails.application.credentials.config # all configured values
+```
+
+</div>
 </script></section></section><section ><section data-markdown><script type="text/template"># ruteo
 
 <div class="main-list">
@@ -5436,20 +5467,24 @@ Es importante diferenciar un **application server** de un **web server**.
 * Ingresamos a [http://localhost:3000/](http://localhost:3000/)
 * Veremos la página de información por defecto de rails.
 
-**Creemos el archivo `public/index.html`**
+Creamos el archivo **`public/index.html`**
 
 ```html
 <h1> Hello World </h1>
 ```
 
-> * Actualizamos la página y...rails observará los cambios de la carpeta `public/`
-> * Si no se especifica ningún archivo en la URL, se asume **index.html**
+> Actualizamos la página y...rails observará los cambios de la carpeta
+> `public/`. Si no se especifica ningún archivo en la URL, se asume **index.html**
 </script></section><section data-markdown><script type="text/template">## Error de ruteo
 
-¿Qué sucede si accedemos a [http://localhost:3000/about.html](http://localhost:3000/about.html)?
+¿Qué sucede si accedemos a [/about.html](http://localhost:3000/about.html)?
 
-![routing error](images/16/01-routing-error.png)
-</script></section></section><section  data-markdown><script type="text/template">## Agregamos public/about.html
+![routing error](static/rails-routing-error.png)
+<!--.element: class="fragment" -->
+</script></section><section data-markdown><script type="text/template">
+## Solucionamos el error
+
+Agregamos **`public/about.html`**:
 
 ```html
 
@@ -5457,94 +5492,84 @@ Es importante diferenciar un **application server** de un **web server**.
 
 ```
 
-*Ahora todo debería funcionar bien*
-</script></section><section  data-markdown><script type="text/template"># Ruteo</script></section><section  data-markdown><script type="text/template">## Introduciendo el ruteo
-* El principio de *convention over configuration* gobierna el ruteo en rails
+> Si volvemos a probar, ahora todo debería funcionar bien.
+<!-- .element: class="fragment" -->
+</script></section><section data-markdown><script type="text/template">## Ruteo dinámico
+
+* El principio de *CoC* gobierna el ruteo en rails.
 * Si un navegador solicita **index.html** entonces Rails servirá la página desde
-  el directorio `public/` por defecto
-	* No se necesita configuración para ello
+  el directorio **`public/`**.
+  * No se necesita configuración para ello
+
+<div class="fragment" >
+
 * ¿Si queremos cambiar este comportamiento?
-	* Haremos que la home page sea ahora el about
-	* Debemos **eliminar** public/index.html: `rm public/index.html`
-</script></section><section  data-markdown><script type="text/template">## Editamos config/routes.rb
+  * Haremos que la home page sea ahora el about
+  * Debemos **_eliminar_** **`public/index.html`**
+</div>
+</script></section><section data-markdown><script type="text/template">## Editamos config/routes.rb
 
 ```ruby
 Rails.application.routes.draw do
   root to: redirect('/about.html')
 end
 ```
-</script></section><section  data-markdown><script type="text/template"># Una reflexión
-* El caso anterior es un ejemplo de la *magia de rails* 
-* Algunos desarrolladores consideran que *convention over configuration* es
-  **magia negra**
-* No es obvio el por qué las páginas se sirven de `public/`
+
+> Indicamos que al acceder a la raíz del proyecto redirija a `about.html`. El
+> concepto de redirect utiliza mensajes [HTTP 301](https://httpstatuses.com/)
+<!-- .element: class="fragment"-->
+</script></section><section data-markdown><script type="text/template">## Una reflexión
+
+* No es obvio el por qué las páginas se sirven de **`public/`**.
 * Si se desconoce esta convención, podemos rompernos la cabeza buscando donde se
-  mapea que http://localhost:3000 sirva `public/index.html`
-	* El código que implementa esto, está enterrado profundamente en el corazón de
-	  rails</script></section><section  data-markdown><script type="text/template">## Request & response
-* Analizaremos el patron MVC desde la perspectiva de la web
+  mapea que http://localhost:3000 sirva **`public/index.html`**
+* La razón es que el application server de rails generalmente se utiliza detrás
+  de un web server por cuestiones de eficiencia.</script></section><section data-markdown><script type="text/template">## Request & response
+
+
 * Debemos considerar que la WEB no es más que navegadores que solicitan páginas
-  a un servidor
-* Los navegadores realizan **requerimientos** (request)</script></section><section  data-markdown><script type="text/template">## Request & response
+  a un servidor.
+* Los navegadores realizan **requerimientos** (request).
 * Los servidores **responden** (response) a estos requerimientos, enviando, por ejemplo, un
   HTML.
-  * Dependiendo en los encabezados del HTML, el navegador deberá realizar más
-    requerimientos para obtener estilos, javascripts e imagenes
 * La simplicidad de HTTP hace que no haya más que los requerimientos de un
-  navegador y las respuestas de un servidor
-  * Hoy día existe además el streaming de audio/video que requieren un pipe
-    entre el navegador y el servidor, pero aún así, un requerimiento y respuesta inicial 
-    hacen posible la incialización del stream
-</script></section><section  data-markdown><script type="text/template">## El ciclo request / response
+  navegador y las respuestas de un servidor.
+</script></section><section data-markdown><script type="text/template">## El ciclo request / response
 
-![request repsonse](images/16/02-request-response.png)
-</script></section><section  data-markdown><script type="text/template">## Analizando el ciclo desde el navegador
-* Es aconsejable usar [Google Chrome](https://www.google.com/chrome)
+![request repsonse](static/rails-request-response.png)
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate -->
+## El ciclo desde el navegador
+
+<div class="small">
+
+* Es aconsejable usar el navegador para observar las peticiones HTTP.
 * Antes de investigar algo, es conveniente utilizar el **modo incógnito**: que
-  se accede usando **Shift+Ctrl+N** (**Shift+Ctrl+P** en Firefox)
+  se accede usando **Shift+Ctrl+N** (**Shift+Ctrl+P** en Firefox).
   * Alternativamente puede limpiarse la caché del navegador para así limpiar
-    cualquier solicitud previamente cacheada por el navegador 
-* Abrimos la vista *Developer Tools* usando **Shift+Ctrl+I**
-  * Seleccionamos el tab **Network**
-  * Realizamos el requerimiento [http://localhost:3000/about.html](http://localhost:3000/about.html)
+    cualquier solicitud previamente cacheada por el navegador.
+* Abrimos la vista *Developer Tools* usando **Shift+Ctrl+I**:
+  * Seleccionamos el tab **Network**.
+  * Realizamos el requerimiento [http://localhost:3000/about.html](http://localhost:3000/about.html).
   * Visualizaremos los archivos recibidos desde el servidor: sólo uno
-    **about.html**</script></section><section  data-markdown><script type="text/template">## Analizando el ciclo desde el navegador
+    **about.html**.
 
-Así debe verse el requerimiento
+> Notar cuando no es "fresco" el requerimiento
+<!-- .element: class="fragment" -->
+</div></script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate -->
+## El ciclo desde el navegador
 
-![ejemplo chrome ok](images/16/03-navegador-ok.png)
-</script></section><section  data-markdown><script type="text/template">## Analizando el ciclo desde el navegador
+* Verificar las cabeceras de un requerimiento HTTP 304.
+* Específicamente observar el detalle del campo **`If-Modified-Since`**.
+* Contrastar con la salida del comando **`TZ=UTC stat public/about.html`**.
+* Ejecutar **`touch public/about.html`**.
+* Cargar de nuevo la página y verificar el código de retorno.
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate -->
+## El ciclo desde el navegador
 
-Notar cuando no es "fresco" el requerimineto
-
-![ejemplo chrome ok](images/16/03-navegador-not-ok.png)
-</script></section><section  data-markdown><script type="text/template">## El detalle del requerimiento
-
-<small>
-Cliqueando sobre el nombre del archivo, y luego sobre la solapa **Headers**, se visualiza el detalle del requerimiento y su respuesta
-</small>
-
-![ejemplo chrome detalle](images/16/04-navegador-detalle.png)
-</script></section><section  data-markdown><script type="text/template">## Analizamos lo que muestra el navegador
-* Que el requerimiento se compone de:
-  * Un request a la URL http://localhost:3000/about.html 
-  * Que el método HTTP empleado fue GET
-  * Los headers del request incluyendo cookies y el identificador del UA
-* La respuesta se compone de:
-  * El código de estado: 200 OK o 304 Not modified
-  * Los headers de la respuesta: incluyendo fecha y hora, así como el
-    identificador del servidor
-  * HTML
-
-<small>
-Ahora podemos analizar cómo el requerimiento a **http://localhost:3000/**
-devuelve dos entradas por el redirect
-</small>
-</script></section><section  data-markdown><script type="text/template">## Analizamos ahora desde el lado del servidor
 * Hasta ahora vimos las herramientas que disponemos desde el navegador
-  * Pero no podemos visualizar qué es lo que sucede en el servidor
+* Pero no podemos visualizar qué es lo que sucede en el servidor
 
-**La ventana de consola del servidor muestra:**
+**Analizamos la consola del servidor:**
 
 ```bash
 
@@ -5552,73 +5577,99 @@ Started GET "/" for 127.0.0.1 at ...
 
 ```
 
-<small>
-Es importante destacar que no hay logs para los archivos servidos desde la
-carpeta `public/`
-</small>
-</script></section><section  data-markdown><script type="text/template"># Model View Controller</script></section><section  data-markdown><script type="text/template">## MVC en la web
+> Es importante destacar que no hay logs para los archivos servidos desde la
+> carpeta **`public/`**.
+<!-- .element: class="fragment" -->
+
+</script></section></section><section ><section data-markdown><script type="text/template"># mvc
+
+<div class="main-list">
+
+* rails
+
+</div></script></section><section data-markdown><script type="text/template">## MVC en la web
 
 El siguiente gráfico muestra qué sucede en el servidor durante el ciclo
 request-response 
 
-![ciclo request response](images/16/05-ciclo-completo-rails.png)
+![ciclo request response](static/rails-ciclo-completo.png)
 
-<small>
-Algunos expertos opinan que la arquitectura de la web no se ajusta al original
-diseño de MVC creado para aplicaciones visuales de escritorio
-</small>
+> Hay quienes opinan que la arquitectura de la web no se ajusta al original
+> diseño de MVC creado para aplicaciones visuales de escritorio
+<!-- .element: class="frafgment" -->
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate -->
 
-</script></section><section  data-markdown><script type="text/template">## MVC en rails
-![MVC en rails](images/16/06-mvc-rails.png)
-</script></section><section  data-markdown><script type="text/template">## MVC en rails
-* En la base del stack está el navegador: el requerimiento fluye subiendo por
-  las capas hasta llegar al **router** que despachará al controlador apropiado
-* Existe un único `config/routes.rb` y múltiples controladores, modelos y vistas
-* El controlador, al recibir el flujo, obtendrá datos de algún **modelo**
-* Con los datos listos, el controlador renderizará la respuesta combinando los
-  datos del modelo con una componente de **vista** que provea layout y markup
-</script></section><section  data-markdown><script type="text/template">## MVC en rails
-* Los archivos del model, controller y view serán código ruby
-* Cada archivo tendrá una estructura y sintaxis específica basada en cómo se ha
-  definido por el mismo framework
-* Cada model, view y controller que creemos *heradará* comportamiento de
-  superclases que son parte del farmework, minimizando lo que debemos codificar
-</script></section><section  data-markdown><script type="text/template">## Models en Rails
-* En la mayor parte de las aplicaciones rails, un modelo obtiene datos de una base de datos
-* Sin embargo, en otros casos se obtienen de conexiones a otros servidores
+## MVC en rails
+
+![MVC en rails](static/rails-mvc.png)
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate -->
+## MVC en rails
+
+<div class="small">
+
+* **En la base del stack está el navegador:** el requerimiento fluye subiendo por
+  las capas hasta llegar al **router** que despachará al controlador apropiado.
+* Existe un único **`config/routes.rb`** y múltiples controladores, modelos y vistas.
+* El **controlador**, al recibir el flujo, obtendrá datos de algún **modelo**.
+* Con los datos listos, el controlador renderizará la respuesta _combinando_ los
+  datos del modelo con una componente de **vista** que provea **_layout_** y
+  **_markup_**.
+* _Los archivos del model, controller y view serán código ruby_.
+* Cada archivo tendrá una **estructura** y **sintaxis** específica basada en cómo se ha
+  definido por el mismo framework.
+* Cada model, view y controller que creemos **heradará** comportamiento de
+  superclases que son parte del farmework, minimizando lo que debemos codificar.
+</div></script></section><section data-markdown><script type="text/template">## Modelos en Rails
+
+* Generalmente son objetos de AR.
+* En la mayor parte de las aplicaciones rails, un modelo obtiene datos de una
+  base de datos.
+* Sin embargo, en otros casos se obtienen de conexiones a otros servicios.
 * Ejemplos:
   * El model **User** podría obtener el nombre y email desde una base de datos
-    local
+    local.
   * El mismo modelo, podría además obtener los tweets recientes de Twitter para
-    este mismo usuario, o la ciudad en la que vive desde Facebook</script></section><section  data-markdown><script type="text/template">## Controllers en Rails
-* Un controlador podría obtener datos de más de un modelo si fuera necesario
+    este mismo usuario, o la ciudad en la que vive desde Facebook.</script></section><section data-markdown><script type="text/template">## Controladores en Rails
+
+<div class="small">
+
+* Un controlador podría obtener datos de más de un modelo si fuera necesario.
 * Generalmente un controlador posee más de una **acción**.
-  Por ejemplo, un controlador para User podría tener acciones para listar los
-usuarios, agregar o eliminar un usuario de la lista
-* El archivo `config/routes.rb` macheará el requermiento web a una acción del
-  controlador
+  * Por ejemplo, un controlador para **`User`** podría tener acciones para
+    listar los usuarios, agregar o eliminar un usuario de la lista.
+* El archivo **`config/routes.rb`** macheará el requerimiento web a una acción
+  del controlador.
 * En Rails se trata de limitar las acciones en un controlador a las siete
-  acciones siguientes: `index`, `show`, `new`, `create`, `edit`, `update` y
-`destroy`
-  * Un controlador que implementa estas acciones se dice que es **RESTful**
-</script></section><section  data-markdown><script type="text/template">## Views en Rails
-* Una vista combina código ruby con markup HTML. 
-* Generalmente tendremos una vista asociada a cada acción de un controlador
-  * Una vista para **index** debería mostrar una lista de usuarios
-  * La vista **show** proveerá detalles del perfil de un usuario</script></section><section  data-markdown><script type="text/template">## Views en Rails
+  acciones siguientes: **`index`, `show`, `new`, `create`, `edit`, `update` y
+  `destroy`**.
+  * Un controlador que implementa estas acciones se dice que es **RESTful**.
+</div></script></section><section data-markdown><script type="text/template">## Vistas en Rails
+
+<div class="small">
+
+* Una vista combina código ruby con markup HTML.
+* Generalmente tendremos una vista asociada a cada acción de un controlador:
+  * Una vista para **index** debería mostrar una lista de usuarios.
+  * La vista **show** proveerá detalles del perfil de un usuario.
 * Las vistas tendrán una sintaxis muy similar a HTML convencional, pero con
   algunos datos que se extraen de variables ruby o estructuras de control como
-loops que permitirán crear tablas.
-  * Siguiendo el principio de Separation of Concerns, es considerada una buena práctica limitar el
-uso de código ruby en las vistas a sólo utilizarlo para imprimir valores de
-variables.
-  * Cualquier otra cosa será responsabilidad del modelo
+  loops que permitirán crear tablas.
+  * Siguiendo el principio de Separation of Concerns, es considerada una buena
+    práctica limitar el uso de código ruby en las vistas a sólo utilizarlo para
+    imprimir valores de variables.
+  * Cualquier otra cosa será responsabilidad del modelo.
 * No todas las acciones tendrán una vista: por ejemplo la acción **destroy**
-  usualmente redirige al **index**, y **create** redirige o al **show** o al
-**new**</script></section><section  data-markdown><script type="text/template">## Home dinámica
-*Planificamos nuestro trabajo definiendo un User story*
+  usualmente redirige al **index**, y **create** redirige o al **show** o al **new**.
+</div>
+</script></section></section><section ><section data-markdown><script type="text/template"># ejemplo
 
-**Birthday countdown**
+<div class="main-list">
+
+* rails
+
+</div></script></section><section data-markdown><script type="text/template">## Home dinámica
+
+_Planificamos nuestro trabajo definiendo un User story que llamaremos **Birthday countdown**_
 
 * As a visitor to the website
   * I want to see the owner's name
@@ -5626,39 +5677,53 @@ variables.
   * I want to see how many days until the 
   *   owner's next birthday
   * In order to send birthday greetings
-</script></section><section  data-markdown><script type="text/template">## La elección de nombres
-* Mucho en el arte de la programación radica en elegir nombres correctos para
-  nuestras creaciones
-* Necesitamos un modelo que represente el site owner. 
-  * Elegiremos el nombre más obvio: **Owner** y cremos el archivo
-`app/models/owner.rb`
-* El nombre del controlador abre otro debate
-  * Nos podríamos tentar por *Home controller* o *Welcome controller*
-  * Si bien son nombres aceptables, si consideramos el **User Story** el nombre
-    **Visitors controller** es más adecuado porque **visitor** es el actor
-  * Creamos entonces `app/controllers/visitors_controller.rb`
-</script></section><section  data-markdown><script type="text/template">## Convenciones de nombres
-* En rails es importante como se llaman los archivos y clases definidas en
-  ellos.
-* Esto se debe al principio CoC
-* Esto evita configuraciones innecesarias
-* Al escribir código
-  * `class Visitor < ActiveRecord::Base` *los nombres de las clases de modelo
-    son en singular y en mayúscula*
-  * `class VisitorsController < ApplicationController` *los nombres de
-    controladores son la combinación de un nombre de modelo en plural con
-    __Controller__ en camel case*</script></section><section  data-markdown><script type="text/template">## Convenciones de nombres
-* Los archivos:
-  * Los archivos de modelo coinciden con el nombre del modelo , pero en
-    minúscula: `app/models/visitor.rb`
-  * Los archvios de controlador coinciden con la clase, pero usando snake case:
-  `app/controllers/visitors_controller.rb`
-  * La carpeta de las vistas coinciden con el nombre de la clase del modelo,
-    pero en plural y en minúscula: `app/views/visitors`
-</script></section><section  data-markdown><script type="text/template">## Routing
-Crearemos primero el ruteo antes de implementar el model y controller
+</script></section><section data-markdown><script type="text/template">## La elección de nombres
 
-### Editamos config/routes.rb
+<div class="small">
+
+* Mucho en el arte de la programación radica en elegir nombres correctos para
+  nuestras creaciones.
+* Necesitamos un modelo que represente el site owner.
+  * Elegiremos el nombre más obvio: **`Owner`** y creamos el archivo **`app/models/owner.rb`**.
+* Para el controlador consideramos el **User Story** y por ello tomamos el
+  nombre **`VisitorsController`** considerando que **visitor** es el actor.
+  * Creamos entonces **`app/controllers/visitors_controller.rb`**.
+</div></script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate -->
+
+## Convenciones de nombres
+
+
+* En rails es **importante** el nombre de los archivos y clases definidas en
+  ellos.
+* Esto se debe al principio **CoC** evitando configuraciones innecesarias.</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate -->
+
+## Convenciones de nombres
+
+**Modelos en singular usando camelcase:**
+
+```ruby
+class Visitor < ActiveRecord::Base
+```
+
+**Controladores en plurar y camelcase:**
+
+```ruby
+class VisitorsController < ApplicationController
+```
+> Terminan en **`Controller`**</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate -->
+
+## Convenciones de nombres
+
+* Los archivos de modelo coinciden con el nombre del modelo pero en
+  minúscula: **`app/models/visitor.rb`**.
+* Los archivos de controlador coinciden con la clase: **`app/controllers/visitors_controller.rb`**.
+* La **_carpeta de las vistas_** coinciden con el nombre del controlador
+  pero sin el sufijo controller: **`app/views/visitors`**.
+
+> Siempre se utiliza snake case</script></section><section data-markdown><script type="text/template">## Ruteo
+
+Crearemos primero el ruteo antes de implementar el modelo y controlador. Editamos
+entonces **`config/routes.rb`**
 
 ```ruby
 Rails.application.routes.draw do
@@ -5666,30 +5731,32 @@ Rails.application.routes.draw do
 end
 ```
 
-* Los detalles de la sintaxis de este archivo puede 
-  entenderse bien leyendo [Routing from outside in](http://guides.rubyonrails.org/routing.html)
-* Modificando `config/routes.rb` no requiere reiniciar
-</script></section><section  data-markdown><script type="text/template">## Probamos http://localhost:3000
+> La sintaxis de este archivo puede verse a partir del documento: [Routing from outside in](http://guides.rubyonrails.org/routing.html).
+> 
+> Modificando **`config/routes.rb`** no requiere reiniciar.
+</script></section><section data-markdown><script type="text/template">## Primer prueba
 
-Esperamos obtener un error
+Acceder a [http://localhost](http://localhost:3000)
 
-![Error sin better errors](images/16/07-no-better-errors.png)
+<div class="fragment">
 
-El error es claro: **uninitialized constant VisitorsController** indicando que
-Rails busca la clase y no puede encontrarla
+Esperamos obtener un error indicando:
 
-<small>
-Podemos mejorar el error agregando la gema `better_errors` al `Gemfile`
-</small>
-</script></section><section  data-markdown><script type="text/template">## El modelo
+**uninitialized constant VisitorsController**
 
-* La mayoría de los modelos rails obtienen datos desde una base de datos
-* Cuando se utiliza una base de datos, es posible usar el comando: `rails
-  generate model` para crear un modelo que hereda de **ActiveRecord**
-y conoce como conectarse con la base de datos
-* Para este ejemplo no necesitamos una base de datos
-	* Nuestra clase simplemente definirá los métodos necesarios
-</script></section><section  data-markdown><script type="text/template">## Implementamos el Modelo
+Lo cual es lógico considerando que no hemos implementado dicha clase.
+
+</div></script></section><section data-markdown><script type="text/template">## El modelo
+
+* La mayoría de los modelos rails obtienen datos desde una base de datos.
+* Cuando se utiliza una base de datos, es posible usar el comando: **`rails
+  generate model`** para crear un modelo que hereda de **`ActiveRecord`**.
+* Para este ejemplo no necesitamos una base de datos: _nuestra clase simplemente
+  definirá los métodos necesarios_.
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate -->
+## El Modelo
+
+<div class="small">
 
 ```ruby
 class Owner
@@ -5715,14 +5782,22 @@ class Owner
 
 end
 ```
-</script></section><section  data-markdown><script type="text/template">## La Vista
-* Como ya mencionamos en las convenciones de nombres, las vistas van en
-  `app/views/`
-* En una aplicación convencional, un controlador puede renderizar múltiples
-  vistas, por lo tanto se crea un directorio para cada controlador
-  * En nuestro caso creamos `mkdir app/views/visitors`
 
-**Creamos entonces `app/views/visitors/new.html.erb`**
+</div>
+</script></section><section data-markdown><script type="text/template">## La Vista
+
+* Como ya mencionamos en las convenciones de nombres, las vistas se guardan en
+  **`app/views/`**.
+* En una aplicación convencional, un controlador puede renderizar múltiples
+  vistas, por lo tanto se crea un directorio para cada controlador.
+
+**Creamos el directorio**
+
+```bash
+mkdir app/views/visitors
+```
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate -->
+## La Vista
 
 ```html
 <h3>Home</h3>
@@ -5730,46 +5805,58 @@ end
 <p>I was born on <%= @owner.birthdate %>.</p>
 <p>Only <%= @owner.countdown %> days until my birthday!</p>
 ```
-</script></section><section  data-markdown><script type="text/template">## La Vista
-* Con lo anterior tenemos únicamente la vista **new** para el controlador
-  visitor
-* La extensión es **erb** porque usamos el motor ERB para armar nuestros
-  templates
-* En el ejemplo, y por defecto en rails, se utiliza ERB, pero es posible utilizar gemas que
-  proveen [Haml](http://railsapps.github.io/rails-haml.html) o [Slim](http://slim-lang.com/) como motores de templating. 
-  * Si usaramos por ejemplo haml, la vista sería **new.html.haml**
-* En la vista, podemos ver que el markup de ERB utiliza los tags `<%=` y
-  `%>`</script></section><section  data-markdown><script type="text/template">## La Vista
-* El acceso a los datos del modelo **Owner** se hace a través de `@owner`
-  * Esto se entenderá mejor cuando creemos el controlador
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate -->
+## La Vista
+* Tenemos únicamente la vista **new** para el controlador **visitors**.
+* La extensión es **`erb`** porque usamos el motor ERB para armar nuestros
+  templates.
+* En la vista, podemos ver que el markup de ERB utiliza los tags **`<%=`** y
+  **`%>`**
+
+> Por defecto en rails se utiliza ERB, pero es posible utilizar gemas que
+> proveen alternativas como por ejemplo [Haml](http://railsapps.github.io/rails-haml.html)
+> o [Slim](http://slim-lang.com/) como motores de templating.  Si usáramos **haml**
+> la vista sería **`new.html.haml`**.</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate -->
+
+## La Vista
+El acceso a los datos del modelo **Owner** se hace a través de **`@owner`**
 
 **Podríamos preguntarnos por qué usar:**
+
+<div class="small">
 
 ```erb
 <%= @owner.countdown %>
 ```
+</div>
 
 en vez de
+
+<div class="small">
 
 ```erb
 <%= (Date.new(today.year, @owner.birthdate.month, @owner.birthdate.day) - Date.today).to_i %>
 ```
+</div>
 
-<small>
-  Podríamos hacerlo, pero violaríamos SoC
-</small>
-</script></section><section  data-markdown><script type="text/template">## El controlador
+> Podríamos hacerlo, pero violaríamos SoC
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate -->
+## El controlador
 
-* Será el *pegamento* entre el modelo Owner y la vista
-  **VisitorsController#new**
-  * Cuando hagamos referencia a una acción en un controlador, usaremos la
-    notación *VisitorsController#new* uniendo el nombre de la clase del
-controlador con el de la acción (que es un método). En este contexto, el
-caracter **#** es una convención usada en la documentación 
-  * El nombre de la clase será `VisitorsController` pero el nombre del archivo
-    **visitors_controller.rb**
-</script></section><section  data-markdown><script type="text/template">## Escribimos el controlador
-Creamos `app/controllers/visitors_controller.rb`
+* Será el *pegamento* entre el modelo Owner y la vista **`VisitorsController#new`**.
+* Cuando hagamos referencia a una acción en un controlador, usaremos la
+  notación **VisitorsController#new** uniendo el nombre de la clase del
+  controlador con el de la acción (que es un método). En este contexto, el
+  caracter **#** es una convención usada en la documentación.
+* El nombre de la clase será **`VisitorsController`** pero el nombre del archivo
+  **`visitors_controller.rb`**
+
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate -->
+## El controlador
+
+
+**Creamos `app/controllers/visitors_controller.rb`**
+
 
 ```ruby
 class VisitorsController < ApplicationController
@@ -5778,22 +5865,29 @@ class VisitorsController < ApplicationController
   end
 end
 ```
+</script></section><section data-markdown><script type="text/template">
+<!-- .slide: data-auto-animate -->
+## El controlador
 
 **¿Qué hace?**
 
-* Al ser subclase de ApplicationController hereda todo el comportamiento
-  definido por la API de rails
-* Solo implementa el método `new`
-  * Creamos una variable de instancia `@owner` dado que en la vista
-    correspondiente estará disponible. 
-</script></section><section  data-markdown><script type="text/template">## Relación controlador y vista
+* Al ser subclase de **`ApplicationController`** hereda todo el comportamiento
+  definido por la API de rails.
+* Solo implementa el método **`new`**
+* Creamos una variable de instancia **`@owner`** dado que en la vista
+  correspondiente estará disponible.
+</script></section><section data-markdown><script type="text/template">## El controlador y la vista
 
-* Ya creamos una vista llamada `app/views/visitors/new.html.erb`
+<div class="small">
+
+* Ya creamos una vista llamada **`app/views/visitors/new.html.erb`**.
 * El controlador es muy simple dado que el comportamiento oculto que invoca la
-  vista *new* es heredado de la API de rails.
+  vista **`new`** es heredado de la API de rails.
   * Podemos hacer explícita esta relación
 
 **Indicando qué vista usar en el controlador**
+
+</div>
 
 ```ruby
 class VisitorsController < ApplicationController
@@ -5802,7 +5896,9 @@ class VisitorsController < ApplicationController
     render 'visitors/new'
   end
 end
-```</script></section><section  data-markdown><script type="text/template">## Scaffolding
+```
+
+</script></section></section><section  data-markdown><script type="text/template">## Scaffolding
 * La mejor forma de entender la arquitectura MVC de rails es examinando cada una
   de las partes como hemos hecho hasta aquí
 * Si se lee la guía de rails: [Getting Started with Rails](http://guides.rubyonrails.org/getting_started.html) veremos que se utiliza mucho el comando `rails generate scaffold` que permite crear MVC en una única operación
