@@ -4971,6 +4971,8 @@ end
 * ruteo
 * mvc
 * ejemplo
+* scaffolding
+* resolviendo problemas
 </div></script></section><section ><section data-markdown><script type="text/template"># introducción
 
 <div class="main-list">
@@ -5898,50 +5900,131 @@ class VisitorsController < ApplicationController
 end
 ```
 
-</script></section></section><section  data-markdown><script type="text/template">## Scaffolding
-* La mejor forma de entender la arquitectura MVC de rails es examinando cada una
-  de las partes como hemos hecho hasta aquí
-* Si se lee la guía de rails: [Getting Started with Rails](http://guides.rubyonrails.org/getting_started.html) veremos que se utiliza mucho el comando `rails generate scaffold` que permite crear MVC en una única operación
-	* Esta operación es muy usada para desarrollar módulos simples en rails</script></section><section  data-markdown><script type="text/template">## Resolviendo problemas
+</script></section></section><section ><section data-markdown><script type="text/template"># scaffolding
 
-* Veremos algunas técnicas que ayudan a resolver problemas
-  * Rails console
-  * Rails logger
-  * Stack trace
-  * Raising exceptions
-</script></section><section  data-markdown><script type="text/template">## Rails console
+<div class="main-list">
+
+* rails
+
+</div></script></section><section data-markdown><script type="text/template">## Scaffolding
+
+El concepto de scaffold lo utilizan varios frameworks para simplificar la
+generación de código a partir de templates parametrizables que
+aceleran la generación inicial de CRUD para modelos. Luego se podrá construir a
+partir de estos templates personalizando con código.
+
+Rails, tiene un potente mecanismo de scaffolding que nos permitirá ir armando un
+proyecto rails de forma simple y automática.
+</script></section><section data-markdown><script type="text/template">
+## ¿Qué automatiza rails?
+
+La generación de:
+
+* Modelos a partir de migraciones y el código ruby asociado.
+* Controladores y rutas que implementan CRUD.
+* Vistas que materiaizan las funciones requeridas en cualquier CRUD.
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate -->
+
+## Ejemplo
+
+```bash
+rails generate books
+```
+
+El comando generará:
+
+* `BooksController`
+* El modelo para `Book`
+* Una entrada en `config/routes.rb` para [`resources :book`](https://guides.rubyonrails.org/routing.html#resources-on-the-web)
+* Tests asociados
+* Vistas para cada acción del controlador bajo la carpeta `app/views/books`
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate -->
+## Ejemplo
+
+Lo probamos accediendo a:
+
+[http://localhost:3000/books](http://localhost:3000/books)
+
+y veremos que....
+
+<div class="fragment">
+
+Primero debemos correr las migraciones
+
+```bash
+rails db:migrate
+```
+</div>
+<div class="fragment">
+
+
+**¡¡los libros no tienen campos!!**
+</div>
+</script></section><section data-markdown><script type="text/template">
+## Scaffold con campos
+
+Para mejorar nuestro ejemplo, desharemos lo que hicimos y luego volveremos a
+correr el comando pero especificando algunos campos.
+
+**Eliminar lo generado por el scaffold**
+
+```bash
+rails db:rollback
+rails destroy scaffold books
+```
+
+**Crear un nuevo scaffold con campos**
+
+```bash
+rails generate scaffold books \
+  title:string author:string publication_year:integer
+```</script></section><section data-markdown><script type="text/template">## Otros generators
+
+Rails provee generators para las diferentes componentes:
+
+```bash
+rails generate model Fruit name:string color:string
+rails generate controller Fruit
+rails generate migration CreateResource \
+  name:string description:text
+```
+
+</script></section></section><section ><section data-markdown><script type="text/template"># resolviendo problemas
+
+<div class="main-list">
+
+* rails
+
+</div></script></section><section data-markdown><script type="text/template">## Introducción
+
+Veremos algunas técnicas que ayudan a resolver problemas
+* Rails console
+* Rails logger
+* Causando errores
+</script></section><section data-markdown><script type="text/template">## Rails console
+
 * IRB solamente evalúa expresiones que son definidas por la API de ruby
 * IRB no conoce las clases de rails
 * Rails console carga toda la aplicación rails en una consola IRB
 
 ```bash
-$ bundle exec rails console
-Loading development environment (Rails X.Y.Z)
-irb(main):001:0> 
+bundle exec rails console
 ```
 
-<small>
-*Notamos que se cargó el ambiente de development*
-</small>
-</script></section><section  data-markdown><script type="text/template">## Rails console
-Inspeccionamos el modelo
-
-```bash
-irb(main):001:0> owner = Owner.new
-=> #<Owner:0x007f7eccd77e48>
-
-irb(main):002:0> owner.name
-=> "Foobar Kadigan"
-```</script></section><section  data-markdown><script type="text/template">## Rails logger
-* Las aplicaciones rails envían información de diagnóstico a un *archivo de log*
+> Notamos que se cargó el ambiente de development
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate -->
+## Rails logger
+* Las aplicaciones rails envían información de diagnóstico a un **archivo de log**.
 * Dependiendo del ambiente en el que corre la aplicación, el log será:
-	* **log/development.log**
-	* **log/production.log**
+	* **`log/development.log`**
+	* **`log/production.log`**
 * En el ambiente de desarrollo, todo log escrito en el archivo es además enviado
-  a la consola de donde se corre el comando `rails server`
-* Además de los logs por defecto de rails, podemos usar nosotros **logger**
-</script></section><section  data-markdown><script type="text/template">## Rails logger
-Modificamos `app/controllers/visitors_controller.rb`
+  a la consola de donde se corre el comando `rails server`.
+* Además de los logs por defecto de rails es posible usar el objeto **logger**.
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate -->
+## Rails logger
+
+Para usar este objeto mostramos un ejemplo:
 
 ```ruby
 class VisitorsController < ApplicationController
@@ -5951,97 +6034,60 @@ class VisitorsController < ApplicationController
     Rails.logger.debug "DEBUG: Owner name is #{@owner.name}"
   end
 end
-```
+```</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate -->
+## Rails logger
 
-Ahora la salida en la consola será
+<div class="small">
 
-```bash
-Started GET "/" for 127.0.0.1 at ...
-Processing by VisitorsController#new as HTML
-DEBUG: entering new method
-DEBUG: Owner name is Foobar Kadigan
-Rendered visitors/new.html.erb within layouts/application (0.2ms)
-Completed 200 OK in 8ms (Views: 4.6ms | ActiveRecord: 0.0ms)
-```
-</script></section><section  data-markdown><script type="text/template">## Rails logger
-* Podemos usar **Rails.logger** en nuestros modelos
-* En los controladores, es posible usar el método **logger** directamente
+* Podemos usar **`Rails.logger`** en modelos.
+* En los controladores, es posible usar el método **`logger`** directamente
 * Es posible usar:
   * `logger.debug`
   * `logger.info`
   * `logger.warn`
   * `logger.error`
   * `logger.fatal`
-* En el ambiente de desarrollo todos los logs se mostrarán
-* En el ambiente de producción no se visualizarán los logs enviados a
-  `logger.debug`
-</script></section><section  data-markdown><script type="text/template">## El Stack Trace
+* Generalmente en el ambiente de **desarrollo _todos los logs se mostrarán_**,
+  mientras que en  **producción _no se visualizarán los logs enviados a
+  `logger.debug`_**.
+</div>
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate -->
 
-* Si bien el logger es muy útil, hay casos en donde el programa se colgará y la
-  consola mostrará un *stack trace*
-* Provocamos un error agregando en el controlador un error
+## Causando errores
 
-**Generamos el error**
+* Si bien **logger** es muy útil, hay casos en donde el programa abortará ante
+  una excepción en la que se mostrará el **stack trace**.
+* Es común provocar un error para evaluar el contexto de un controlador.
 
-```ruby
+<div class="small">
+
+**Generamos un error**
+
+<pre><code class="ruby hljs" data-trim data-line-numbers="4">
 class VisitorsController < ApplicationController
   def new
-    Rails.logger.debug 'DEBUG: entering new method'
     @owner = Owner.new
-    Rails.logger.debug 'DEBUG: Owner name is ' + @owner.name
     DISASTER
   end
 end
-```
+</code></pre>
 
-<small>En vez de DISASTER, podría haberse usado `console` proporcionado por
-**web-console**</small></script></section><section  data-markdown><script type="text/template">## Al ingresar a la página veremos
-![error stack trace](images/16/08-stacktrace.png)
-</script></section><section  data-markdown><script type="text/template">## El Stack Trace
+> Notar que el manejador en modo desarrollo deja una consola
 
-La captura muestra el error así porque usamos la gema **web-console**
+</div>
+</script></section><section data-markdown><script type="text/template">
+## Más recursos...
 
-### En la consola veremos
-```bash
-Started GET "/" for 127.0.0.1 at 2013-12-08 20:09:18 -0300
-Processing by VisitorsController#new as HTML
-DEBUG: entering new method
-DEBUG: Owner name is Foobar Kadigan
-Completed 500 Internal Server Error in 2ms
+[RailsGuide: Debugging Rails Applications](http://guides.rubyonrails.org/debugging_rails_applications.html)
+</script></section></section><section  data-markdown><script type="text/template">
+## Referencias
 
-NameError - uninitialized constant VisitorsController::DISASTER:
-  activesupport (4.0.1) lib/active_support/dependencies.rb:501:in `load_missing_constant'
-  ...
-```
-</script></section><section  data-markdown><script type="text/template">## El Stack Trace
-* No hay que sentirse abrumado por la cantidad de información
-* Muchas veces la explicación del problema está en la primer línea
-* Otras veces tenemos que avanzar sobre la pila leyendo cuidadosamente el
-  problema
-</script></section><section  data-markdown><script type="text/template">## Lanzando excepciones
-* El ejemplo del stack trace hace uso de una directiva desconocida por rails
-* Una solución más elegante sería lanzar una excepción
-
-```ruby
-class VisitorsController < ApplicationController
-def new
-  Rails.logger.debug 'DEBUG: entering new method'
-    @owner = Owner.new
-    Rails.logger.debug ".."
-    raise 'Deliberate Failure'
-  end
-end
-```
-
-### Más recursos...
-[RailsGuide: Debugging Rails Applications](http://guides.rubyonrails.org/debugging_rails_applications.html)</script></section><section  data-markdown><script type="text/template">## Referencias
 * [Learn Ruby on Rails](http://learn-rails.com/learn-ruby-on-rails.html)
 * [Rails Guides](http://guides.rubyonrails.org/)
 * [Rails Documentation](http://api.rubyonrails.org/)
 * [Rails Beginner Cheat Sheet](http://pragtob.github.io/rails-beginner-cheatsheet/index.html)
 * [Railscasts](http://railscasts.com/)
 * [Uso de concerns: como poner a dieta los modelos regordetes](http://37signals.com/svn/posts/3372-put-chubby-models-on-a-diet-with-concerns)
-***
 
 </script></section></div>
     </div>
