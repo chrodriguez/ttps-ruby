@@ -223,7 +223,7 @@ end
 
 Agregamos el precio en centavos
 
-<pre><code class="ruby hljs" data-trim data-line-numbers="10-16">
+<pre><code class="ruby hljs" data-trim data-line-numbers="9-16">
 class BookInStock
   attr_reader :isbn
   attr_accessor :price

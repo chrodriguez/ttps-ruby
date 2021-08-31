@@ -23,7 +23,7 @@ referencia es conocida como **MRI: _Matz’s Ruby Interpreter_** o **CRuby**
   * **1.8.x**
   * **1.9.x**
   * **2.x**
-  * Ruby 3 will be 3 times faster <!-- .element: class="fragment" -->
+  * **3.x** _Ruby 3 will be 3 times faster_<!-- .element: class="fragment" -->
 
 ----
 ## JRuby
