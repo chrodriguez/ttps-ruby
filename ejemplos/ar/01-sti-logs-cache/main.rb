@@ -3,6 +3,7 @@ Bundler.require
 require_relative 'product'
 
 ActiveRecord::Base.logger = Logger.new(STDOUT)
+#ActiveRecord::Base.logger.level = :info
 
 # DB_NAME environment variable can be used to specify some other DB_NAME than
 # /tmp/sample.db

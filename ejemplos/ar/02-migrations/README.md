@@ -60,9 +60,17 @@ Una secuencia de uso habitual podría ser:
 
 ```bash
 rake db:drop db:create db:migrate
+
+# Revisamos la tabla
+echo .schema publications | sqlite3 db/development.sqlite3
+
+# Creamos una tabla y una referencia de publications a author
 rake db:new_migration name=createAuthors options="firstname:string lastname:string"
 rake db:new_migration name=addAuthorRefToPublications options=author_id:integer:index
 rake db:migrate
+
+# Revisamos las tablas
+echo .schema publications | sqlite3 db/development.sqlite3
+echo .schema authors | sqlite3 db/development.sqlite3
 ```
 
-> Es posible observar el esquema de las tablas usando .schema
