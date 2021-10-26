@@ -75,7 +75,6 @@ elección
 * [Rails Guides](http://guides.rubyonrails.org/)
 * [Rails Documentation](http://api.rubyonrails.org/)
 * [Rails Begginer Chat Sheet](http://pragtob.github.io/rails-beginner-cheatsheet/index.html)
-* [~~Rails casts~~](http://railscasts.com/): _videos desactualizados aunque
   alguno podría ser útil_.
 ----
 ## Mantenerse actualizado
@@ -84,6 +83,7 @@ elección
 * [Ruby Weekly](http://rubyweekly.com/)
 * [Ruby Flow](http://www.rubyflow.com/)
 * [Changelog Rails](https://changelog.com/topic/rails)
+* [Go Rails](https://gorails.com/episodes)
 
 ----
 ## Instalando rails
