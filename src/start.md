@@ -48,3 +48,6 @@ FILE: active-record.md
 ---
 
 FILE: rails.md
+---
+
+FILE: 12-factors.md

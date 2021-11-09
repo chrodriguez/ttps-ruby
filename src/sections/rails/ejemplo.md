@@ -158,12 +158,15 @@ mkdir app/views/visitors
 <!-- .slide: data-auto-animate -->
 ## La Vista
 
+**Creamos `app/views/visitors/new.html.erb`**
+
 ```html
 <h3>Home</h3>
 <p>Welcome to the home of <%= @owner.name %>.</p>
 <p>I was born on <%= @owner.birthdate %>.</p>
 <p>Only <%= @owner.countdown %> days until my birthday!</p>
 ```
+
 
 ----
 <!-- .slide: data-auto-animate -->
@@ -174,10 +177,28 @@ mkdir app/views/visitors
 * En la vista, podemos ver que el markup de ERB utiliza los tags **`<%=`** y
   **`%>`**
 
-> Por defecto en rails se utiliza ERB, pero es posible utilizar gemas que
-> proveen alternativas como por ejemplo [Haml](http://railsapps.github.io/rails-haml.html)
-> o [Slim](http://slim-lang.com/) como motores de templating.  Si usáramos **haml**
-> la vista sería **`new.html.haml`**.
+----
+<!-- .slide: data-auto-animate -->
+## La Vista
+
+Por defecto en rails se utiliza ERB, pero es posible utilizar gemas que
+proveen alternativas como por ejemplo [Slim](http://slim-lang.com/). 
+Si usáramos **slim** la vista sería **`new.html.slim`**.
+
+```
+h3 Home in slim
+
+p  Welcome to the home of #{@owner.name}
+
+p I was born on #{@owner.birthdate}.
+
+p Only #{@owner.countdown} days until my birthday!
+```
+
+> Debe incluirse la gema `slim-rails` y éste ser el único template dador que por
+> defecto tiene prioridad erb.
+
+
 ----
 <!-- .slide: data-auto-animate -->
 
