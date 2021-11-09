@@ -5948,7 +5948,7 @@ La generación de:
 ## Ejemplo
 
 ```bash
-rails generate books
+rails generate scaffold books
 ```
 
 El comando generará:
@@ -6005,10 +6005,88 @@ Rails provee generators para las diferentes componentes:
 ```bash
 rails generate model Fruit name:string color:string
 rails generate controller Fruit
-rails generate migration CreateResource \
-  name:string description:text
+rails generate resource post title:string body:text \
+  published:boolean
 ```
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate -->
+## Las rutas
 
+Es importante entender cómo los controladores funcionan en relación con las
+rutas de rails. Podemos analizar entonces, luego de haber creado diferentes
+rutas usando los generators, vemos que tenemos en `config/routes.rb`
+
+```ruby
+Rails.application.routes.draw do
+  resources :posts
+  resources :books
+
+  root to: 'visitors#new'
+end
+```
+</script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate -->
+
+## Las rutas
+
+Con el comando `rails routes` podemos ver cómo se expanden esas rutas:
+
+```
+rails routes --help
+rails routes -c posts
+rails routes -E -c posts
+```
+</script></section><section data-markdown><script type="text/template">## Analizando las rutas
+
+<div class="small">
+
+En el ejemplo anterior, vemos que aparece `resources :xxxx`. Esto define siete
+acciones para implementar CRUD usando veebos HTTP. Si el recurso es `photos`
+entonces tendremos:
+
+
+ | Verbo HTTP | Path | Controller#Action | ¿Qué hace? | 
+ | --------- | ---- | ----------------- | -------- | 
+ | GET | `/photos` | `photos#index` | Listado de fotos |
+ | GET | `/photos/new` | `photos#new` | Formulario para crear una nueva foto |
+ | POST | `/photos` | `photos#create` | Crea la foto |
+ | GET | `/photos/:id` | `photos#show` | Muestra una foto determinada |
+ | GET | `/photos/:id/edit` | `photos#edit` | Formulario para editar una foto |
+ | PATCH/PUT | `/photos/:id` | `photos#update` | Actualiza la foto |
+ | DELETE | `/photos/:id` | `photos#destroy` | Elimina una foto |
+
+</div></script></section><section data-markdown><script type="text/template">
+## Posibilidades con las rutas
+
+* Especificar múltiples recursos al mismo tiempo: `resources :photos, :books,
+  :videos`
+* Rutas singulares: 
+  * **`get 'profile', to: 'users#show'`**
+  * **`resoruces :photo`** genera seis acciones (no incluye el list)
+* Pueden anidarse para por ejemplo CRUD de un modelo que esté relacionado. Por
+  ejemplo como sucedería por ejemplo en un modelo `Person` que tiene asociado
+  `Pet`. Es posible tener rutas como **`/people/:id/pets/new`**
+
+</script></section><section data-markdown><script type="text/template">### ¿Y cómo sé la url de una ruta?
+
+<div class="small">
+
+Al crear una ruta usando resource, se generan además una serie de helpers que
+pueden usarse en el controller y vistas, como por ejemplo para `:photos`
+tenderemos entonces:
+
+
+* **`photos_path`:** retornará /photos
+* **`new_photo_path`:** retornará /photos/new
+* **`edit_photo_path(:id)`:** retornará /photos/:id/edit (entonces, `edit_photo_path(10)` retornará /photos/10/edit)
+* **`photo_path(:id)`:** retornará /photos/:id (entonces, `photo_path(10)` retornará /photos/10)
+
+> Los mismos helpers con sufijo `_url` en vez de `_path` proveen URLs absolutas 
+
+</div>
+</script></section><section data-markdown><script type="text/template">### Ruteo en rails
+
+La mejor forma de aprender todas las capacidades del ruteo en rails, es
+recomendable leer [Rails Routing from teh Outside
+In](https://guides.rubyonrails.org/routing.html).
 </script></section></section><section ><section data-markdown><script type="text/template"># resolviendo problemas
 
 <div class="main-list">
