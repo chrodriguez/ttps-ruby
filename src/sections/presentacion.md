@@ -130,6 +130,8 @@ pueden verse en los siguientes playlists de youtube:
 ## Bibliografía / Recursos
 A medida que se presenten los temas se indicarán las fuentes apropiadas
 
+Los fuentes de éste material pueden encontrarse en
+https://github.com/ttps-ruby/ttps-ruby.github.io
 
 
 <small>
