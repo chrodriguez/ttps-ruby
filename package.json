@@ -16,7 +16,7 @@
     "print": "reveal-md src/start.md --css src/css/styles.css --print slides.pdf"
   },
   "dependencies": {
-    "reveal-md": "^5.1.2",
+    "reveal-md": "^5.3.4",
     "reveal.js-copycode": "^1.0.0"
   }
 }

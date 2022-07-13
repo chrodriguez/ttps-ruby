@@ -117,6 +117,14 @@ aprenderemos a trabajar con este framework:
 * La nota final de la materia será un **seis aprobando la cursada**. Será
   posible mejorar la nota con una extensión del trabajo práctico integrador o
   propuesta de trabajo conjunta con el profesor.
+----
+## Videos años anteriores
+
+Durante la pandemia, generamos material correspondiente a este curso. Las clases
+pueden verse en los siguientes playlists de youtube:
+
+* [Teorías 2020](https://www.youtube.com/playlist?list=PLbzlLgd17gcHfBQWOvT5V10VAPONlv6Mf)
+* [Teorías 2021](https://youtube.com/playlist?list=PLbzlLgd17gcGwfnl2CZunboh1s7wzeNGq)
 
 ----
 ## Bibliografía / Recursos
