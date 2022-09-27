@@ -45,8 +45,8 @@
 
 <div class="fragment small">
 
-**Probar la división requiriendo `mathn`**. A partir de ruby 2.5 debe instaalrse
-como gema.
+**Probar la división requiriendo `mathn`**. A partir de ruby 2.5 debe instalrse
+como gema: `gem install cmath mathn`
 
 </div>
 
