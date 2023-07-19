@@ -20,8 +20,8 @@
 
 | Día | Hora | Aula |
 | --- | --- | --- |
-| Martes | 11 a 13 | 10-A |
-| Jueves | 11 a 13 | 10-A |
+| Lunes (teoría) | 18 a 20 | 14 |
+| Jueves (práctica) | 10 a 12 | 1 |
 
 ----
 <!-- .slide: data-auto-animate -->
