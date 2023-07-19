@@ -12,7 +12,7 @@
 
 | Ayudantes | Contacto |
 | ---- | --- |
-| Lucas Di Cunzolo | [![lucasdicunzolo@gmail.com](static/mail.svg)](mailto:lucasdicunzolo@gmail.com "lucasdicunzolo@gmail.com")<!-- .element: class="social"--> [![twitter](static/twitter.svg)](https://twitter.com/lucasdc96 "twitter")<!-- .element: class="social"--> [![github](static/github.svg)](https://github.com/lucasdc6 "github")<!-- .element: class="social"--> | 
+| Emilia Corrons | [![maemco4@gmail.com](static/mail.svg)](mailto:maemco4@gmail.com "maemco4@gmail.com")<!-- .element: class="social"--> | 
 | Damián Candia | [![dcandia@cespi.unlp.edu.ar](static/mail.svg)](mailto:dcandia@cespi.unlp.edu.ar "dcandia@cespi.unlp.edu.ar")<!-- .element: class="social"--> |
 
 ----
