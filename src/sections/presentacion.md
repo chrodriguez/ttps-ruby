@@ -27,13 +27,14 @@
 <!-- .slide: data-auto-animate -->
 ## Programa
 
-Dividimos el programa en cuatro secciones principales:
+Dividimos el programa en secciones:
 
 * **Introducción**
 * **El lenguaje**
 * **Gemas**
 * **Active Record**
 * **Rails**
+* **12 Factor Apps**
 ----
 <!-- .slide: data-auto-animate -->
 ## Programa
@@ -47,6 +48,7 @@ Dividimos el programa en cuatro secciones principales:
 * **Gemas**
 * **Active Record**
 * **Rails**
+* **12 Factor Apps**
 ----
 <!-- .slide: data-auto-animate -->
 ## Programa
@@ -63,6 +65,7 @@ Dividimos el programa en cuatro secciones principales:
 * **Gemas**
 * **Active Record**
 * **Rails**
+* **12 Factor Apps**
 ----
 <!-- .slide: data-auto-animate -->
 ## Programa
@@ -75,6 +78,7 @@ abordaremos:
   * Bundler
 * **Active Record**
 * **Rails**
+* **12 Factor Apps**
 
 ----
 <!-- .slide: data-auto-animate -->
@@ -90,6 +94,7 @@ abordaremos:
   * Validaciones
   * Asociaciones
 * **Rails** 
+* **12 Factor Apps**
 ----
 <!-- .slide: data-auto-animate -->
 ## Programa
@@ -105,6 +110,7 @@ aprenderemos a trabajar con este framework:
   * ActiveRecord
   * Unit Testing
   * MVC
+* **12 Factor Apps**
 ----
 ## Modalidad de cursada
 
