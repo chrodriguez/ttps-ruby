@@ -17,7 +17,8 @@ sqlite3 /tmp/sample.db
 ```sql
 create table products(
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  name varchar(255), type varchar(255),
+  name varchar(255),
+  type varchar(255),
   items_count INTEGER);
 
 create table items(id INTEGER PRIMARY KEY AUTOINCREMENT, name varchar(255),  product_id INTEGER);
