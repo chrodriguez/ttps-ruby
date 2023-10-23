@@ -355,5 +355,5 @@ puts "Total value = #{reader.total_value_in_stock}"
 ```
 
 [Descargar el
-ejemplo](https://github.com/ttps-ruby/teoria/tree/master/ejemplos/stock-stats)
+ejemplo](https://github.com/ttps-ruby/ttps-ruby.github.io/tree/master/ejemplos/stock-stats)
 

@@ -134,7 +134,7 @@ server.start.join
 ```
 
 > GServer debe instalarse como una librería externa. [Ver
-> ejemplo](https://github.com/ttps-ruby/teoria/tree/master/ejemplos/gserver)
+> ejemplo](https://github.com/ttps-ruby/ttps-ruby.github.io/tree/master/ejemplos/gserver)
 ----
 ## ¿Cómo hemos usado la herencia?
 

@@ -278,7 +278,7 @@ end
 ```
 
 > `Hash.new` puede recibir como parámetro el valor usado para incializar cada
-> valor del Hash.  [Ver ejemplo](https://github.com/ttps-ruby/teoria/tree/master/ejemplos/words-frequency).
+> valor del Hash.  [Ver ejemplo](https://github.com/ttps-ruby/ttps-ruby.github.io/tree/master/ejemplos/words-frequency).
 > Es importante destacar que el ejemplo incluye tests para analizar cómo
 > desarrollar utilzando TDD.
 

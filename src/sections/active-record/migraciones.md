@@ -58,7 +58,7 @@ end
 
 ## Ejemplo de migraciones
 
-[Ver ejemplo](https://github.com/ttps-ruby/teoria/tree/master/ejemplos/ar/02-migrations)
+[Ver ejemplo](https://github.com/ttps-ruby/ttps-ruby.github.io/tree/master/ejemplos/ar/02-migrations)
 
 ----
 ### Alternativas a las Migraciones

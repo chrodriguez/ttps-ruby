@@ -368,4 +368,4 @@ end
 ## Ejemplo de validaciones
 
 [Ver
-ejemplo](https://github.com/ttps-ruby/teoria/tree/master/ejemplos/ar/03-validaciones)
+ejemplo](https://github.com/ttps-ruby/ttps-ruby.github.io/tree/master/ejemplos/ar/03-validaciones)

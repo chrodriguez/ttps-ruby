@@ -90,7 +90,7 @@ Además se definen accessors para cada campo. En el ejemplo serían **`name`** y
 **`name=`**.
 
 [Acceso a un ejemplo
-completo](https://github.com/ttps-ruby/teoria/tree/master/ejemplos/ar/00-introduccion)
+completo](https://github.com/ttps-ruby/ttps-ruby.github.io/tree/master/ejemplos/ar/00-introduccion)
 </div>
 ----
 ## Convenciones de nombres
@@ -180,5 +180,5 @@ dependiendo del propósito de estas columnas.
 
 <div class="small">
 
-[Ver ejemplo](https://github.com/TTPS-ruby/teoria/tree/master/ejemplos/ar/01-sti-logs-cache)
+[Ver ejemplo](https://github.com/TTPS-ruby/ttps-ruby.github.io/tree/master/ejemplos/ar/01-sti-logs-cache)
 </div>
