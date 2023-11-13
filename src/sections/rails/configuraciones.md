@@ -75,6 +75,8 @@ Instalamos la gema con bundler
 bundle install
 ```
 
+> Solo funciona con ruby < 3 por el momento
+
 ----
 <!-- .slide: data-auto-animate -->
 ## Cómo usar figaro
