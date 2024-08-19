@@ -42,7 +42,7 @@
   * Perl
   * LISP
 * Hasta el 2001 conocido sólo en Japón
-  * El libro [Programming Ruby](ihttps://pragprog.com/titles/ruby5/programming-ruby-3-3-5th-edition/)
+  * El libro [Programming Ruby](https://pragprog.com/titles/ruby5/programming-ruby-3-3-5th-edition/)
     fue el impulsor del lenguaje fuera de Japón
   * También conocido como PickAxe
   * La primera versión puede [leerse en línea](https://ruby-doc.org/docs/ProgrammingRuby/)
