@@ -619,6 +619,14 @@ let_me_see.call
 ```
 
 ----
+## Un closure en js
+
+```js
+let multiplicar = ( x => (y) => x*y )
+multiplicar(2)(3)
+```
+
+----
 ### Lambda: notación alternativa
 
 ```ruby
