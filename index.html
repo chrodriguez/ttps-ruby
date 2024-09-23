@@ -2751,9 +2751,9 @@ require 'open-uri'
 
 page = "unlp"
 file_name = "#{page}.html"
-web_page = URI.open("https://www.ruby-lang.org/en/#{page}")
 output = File.open(file_name, "w")
 begin
+  web_page = URI.open("https://www.ruby-lang.org/en/#{page}")
   while line = web_page.gets
     output.puts line
   end
