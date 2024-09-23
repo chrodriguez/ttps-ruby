@@ -30,7 +30,7 @@ Analizamos el siguiente código
 ```ruby
 require 'open-uri'
 
-web_page = open("https://www.ruby-lang.org/en/documentation/")
+web_page = URI.open("https://www.ruby-lang.org/en/documentation/")
 output = File.open("ruby.html", "w")
 while line = web_page.gets
   output.puts line
@@ -51,7 +51,7 @@ require 'open-uri'
 
 page = "unlp"
 file_name = "#{page}.html"
-web_page = open("https://www.ruby-lang.org/en/#{page}")
+web_page = URI.open("https://www.ruby-lang.org/en/#{page}")
 output = File.open(file_name, "w")
 begin
   while line = web_page.gets
