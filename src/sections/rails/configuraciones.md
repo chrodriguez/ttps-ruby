@@ -66,7 +66,7 @@ _¿De qué forma seteamos los valores **`DOMAIN_NAME`**, **`GMAIL_USERNAME`** y
 Agregamos al `Gemfile`
 
 ```ruby
-gem 'figaro'
+gem "figaro", git: "https://github.com/laserlemon/figaro"
 ```
 
 Instalamos la gema con bundler
@@ -75,7 +75,7 @@ Instalamos la gema con bundler
 bundle install
 ```
 
-> Solo funciona con ruby < 3 por el momento
+> No han actualizado la gema en rubygems
 
 ----
 <!-- .slide: data-auto-animate -->
@@ -106,6 +106,9 @@ development:
   GMAIL_USERNAME: otherusername
   GMAIL_PASSWORD: otherpassword
 ```
+
+> Probar con `rails console [-e production]`, imprimiendo
+> `ENV['GMAIL_USERNAME']`
 
 ----
 
