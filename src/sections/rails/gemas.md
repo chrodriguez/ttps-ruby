@@ -71,7 +71,7 @@
 <!-- .slide: data-auto-animate -->
 ## Las Gemas de Rails
 
-_Estas gemas a su vez tienen dependencias, dando un total de aproximadamente 70
+_Estas gemas a su vez tienen dependencias, dando un total de aproximadamente 100
 gemas_.
 
 ----
