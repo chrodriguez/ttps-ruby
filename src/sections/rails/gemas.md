@@ -87,9 +87,8 @@ Además de la gema de rails, el comando **`rails new`** agrega otras gemas:
 
 * sqlite3
 * puma
-* sass-rails
-* webpacker
-* turbolinks
+* stimulus-rails
+* turbo-rails
 * jbuilder
 * tzinfo-data
 
@@ -97,21 +96,14 @@ Además de la gema de rails, el comando **`rails new`** agrega otras gemas:
 <div class="col">
 
 * development:
-  * byebug
+  * brakeman
   * web-console
-  * listen
-  * spring
+  * debug
 * test:
   * capybara
   * selenium-webdriver
-  * webdrivers
 
 </div>
-</div>
-<div class="fragment" >
-
-Puede que no se utilice ni SQLite, SCSS, jQuery u otras gemas, pero la mayoría
-de los desarrollos las utilizan y por ello se consideran
 </div>
 </div>
 
