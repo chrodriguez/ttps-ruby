@@ -187,5 +187,4 @@ tenderemos entonces:
 ### Ruteo en rails
 
 La mejor forma de aprender todas las capacidades del ruteo en rails, es
-recomendable leer [Rails Routing from teh Outside
-In](https://guides.rubyonrails.org/routing.html).
+recomendable leer [Rails Routing from the Outside In](https://guides.rubyonrails.org/routing.html).
