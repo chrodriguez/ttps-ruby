@@ -5293,7 +5293,7 @@ estarán presentes en todo proyecto rails:
 <div></script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate -->
 ## Las Gemas de Rails
 
-_Estas gemas a su vez tienen dependencias, dando un total de aproximadamente 70
+_Estas gemas a su vez tienen dependencias, dando un total de aproximadamente 100
 gemas_.
 </script></section><section data-markdown><script type="text/template">## Otras gemas
 
@@ -5307,9 +5307,8 @@ Además de la gema de rails, el comando **`rails new`** agrega otras gemas:
 
 * sqlite3
 * puma
-* sass-rails
-* webpacker
-* turbolinks
+* stimulus-rails
+* turbo-rails
 * jbuilder
 * tzinfo-data
 
@@ -5317,21 +5316,14 @@ Además de la gema de rails, el comando **`rails new`** agrega otras gemas:
 <div class="col">
 
 * development:
-  * byebug
+  * brakeman
   * web-console
-  * listen
-  * spring
+  * debug
 * test:
   * capybara
   * selenium-webdriver
-  * webdrivers
 
 </div>
-</div>
-<div class="fragment" >
-
-Puede que no se utilice ni SQLite, SCSS, jQuery u otras gemas, pero la mayoría
-de los desarrollos las utilizan y por ello se consideran
 </div>
 </div>
 </script></section><section data-markdown><script type="text/template">## Gemas externas
@@ -5409,7 +5401,7 @@ _¿De qué forma seteamos los valores **`DOMAIN_NAME`**, **`GMAIL_USERNAME`** y
 Agregamos al `Gemfile`
 
 ```ruby
-gem 'figaro'
+gem "figaro", git: "https://github.com/laserlemon/figaro"
 ```
 
 Instalamos la gema con bundler
@@ -5418,7 +5410,7 @@ Instalamos la gema con bundler
 bundle install
 ```
 
-> Solo funciona con ruby < 3 por el momento
+> No han actualizado la gema en rubygems
 </script></section><section data-markdown><script type="text/template"><!-- .slide: data-auto-animate -->
 ## Cómo usar figaro
 
@@ -5445,6 +5437,9 @@ development:
   GMAIL_USERNAME: otherusername
   GMAIL_PASSWORD: otherpassword
 ```
+
+> Probar con `rails console [-e production]`, imprimiendo
+> `ENV['GMAIL_USERNAME']`
 </script></section><section data-markdown><script type="text/template">
 ## Rails credentials
 
@@ -6111,8 +6106,7 @@ tenderemos entonces:
 </script></section><section data-markdown><script type="text/template">### Ruteo en rails
 
 La mejor forma de aprender todas las capacidades del ruteo en rails, es
-recomendable leer [Rails Routing from teh Outside
-In](https://guides.rubyonrails.org/routing.html).
+recomendable leer [Rails Routing from the Outside In](https://guides.rubyonrails.org/routing.html).
 </script></section></section><section ><section data-markdown><script type="text/template"># resolviendo problemas
 
 <div class="main-list">
